@@ -1,4 +1,4 @@
-![header](capPRG.png)
+![header](capPSP.png)
 
 # Programación de Servicios y Procesos
 
