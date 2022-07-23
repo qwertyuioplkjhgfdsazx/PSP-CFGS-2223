@@ -33,6 +33,7 @@
   - https://github.com/franlu/DAM-PSP
   - https://github.com/ProgProcesosYServicios
   - https://github.com/joseluisgs
+  - https://github.com/oscarnovillo/dam2_2122
   - https://github.com/PacoPortillo/DAM_PSP_Tarea02_La-Cena-de-los-Filosofos
 
 
