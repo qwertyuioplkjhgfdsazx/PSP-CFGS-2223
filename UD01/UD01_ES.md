@@ -1,10 +1,10 @@
----
-title: UD01: Multiprocesses coding
+﻿---
+title: UD01: Programación multiproceso
 language: ES
 author: David Martínez Peña [www.martinezpenya.es]
 subject: Programación de Servicios y Procesos
 keywords: [PSP, 2022, Programacion, servicios, procesos, multihilo, Java]
-IES: IES Eduardo Primo Marqués (Carlet) [ieseduardoprimo.es]
+IES: IES Eduardo Primo Marqués (Carlet) [www.ieseduardoprimo.es]
 header: ${title} - ${subject} (ver. ${today}) 
 footer:${currentFileName}.pdf - ${author} - ${IES} - ${pageNo}/${pageCount}
 typora-root-url:${filename}/../
@@ -44,6 +44,8 @@ Uno de los elementos más importante de un sistema informático (ordenador, móv
 
 Un **núcleo** es una unidad con capacidad de ejecución dentro de un procesador. En un sistema con un procesador y cuatro núcleos se pueden ejecutar cuatro instrucciones simultáneamente. Esto no significa que se disponga de cuatros procesadores, pero sí que se tiene mucha más capacidad de procesamiento simultáneo.
 
+<img src="/assets/733px-Intel_80486DX2_top.jpg" alt="Intel 80486DX2" style="zoom: 33%;" />
+
 > **¿Significa todo esto que un procesador con un único núcleo no puede realizar multitarea?**
 >
 > La respuesta es NO. Cualquier sistema puede, ejecutar varias tareas y que parezca que las realiza todas simultáneamente. Debe dedicar una pequeña parte de tiempo de ejecución a cada tarea, de manera que no se aprecie el cambio entre ellas (denominado cambio de contexto). Esto producirá la ilusión de que las tareas se ejecutan simultáneamente.
@@ -64,14 +66,14 @@ Los lenguajes de programación tienen diferentes formas de ser categorizados:
 
   ```mermaid
   graph LR
-  A(Applicación) --> B(Máquina)
+  A(Application) --> B(Machine)
   ```
 
   **Interpretados:** Son lenguajes cuyas instrucciones se traducen para ser **ejecutadas por la máquina hardware en el mismo momento de la ejecución**, sin crear ningún código intermedio, ni guardar el resultado de dicha traducción. Son más lentos que los lenguajes compilados debido a la necesidad de traducir a código máquina el programa, instrucción a instrucción, mientras se ejecuta. Debido a esta ejecución en tiempo real, no se traduce la totalidad del conjunto de instrucciones, sino se va traduciendo a medida que se van ejecutando cada una de ellas. Permiten ofrecer al programa interpretado un entorno **no** dependiente de la máquina donde se ejecuta el interprete, sino del propio interprete. Ejemplos: Html, Php, Python, Ruby, Javascript
 
   ```mermaid
   graph LR
-  A(Applicación) --> C(Intérprete) --> B(Máquina)
+  A(Application) --> C(Interpreter) --> B(Machine)
   ```
 
   ### Lenguaje Intermedio
@@ -93,7 +95,7 @@ Por tanto, un programa, al ser ejecutado por un usuario, genera un proceso en el
 
 Un servicio también es un programa pero su ejecución se realiza en segundo plano y no requiere la interacción del usuario. Normalmente, se arranca de manera automática por el sistema operativo y está en constante ejecución.
 
-En linux podemos ver los procesos con el comando top o htop:
+En linux podemos ver los procesos con el comando `top` o `htop`:
 
 ![top (ubuntu)](/assets/ubuntu.png)
 
@@ -101,7 +103,7 @@ Y en Windows con el Administrador de tareas:
 
 ![Administrador de Tareas (Windows)](/assets/windows.png)
 
-Es interesante señalar que en los programas interpretados o intermedios , el proceso que se arranca no es el propio programa, sino el del intérprete (como en Python) o el de la máquina virtual (como en Java). En estos casos el nombre del proceso no coincide con el nombre del programa.
+Es interesante señalar que en los programas interpretados o intermedios, el proceso que se arranca no es el propio programa, sino el del intérprete (como en `Python`) o el de la máquina virtual (como en `Java`). En estos casos el nombre del proceso no coincide con el nombre del programa.
 
 Observa como en ambas capturas el número de procesos en ejecución es muy superior a la cantidad de procesadores/nucleos disponibles en el sistema.
 
@@ -109,7 +111,7 @@ Observa como en ambas capturas el número de procesos en ejecución es muy super
 
 Prácticamente todos los sistemas operativos modernos son multitarea o multiproceso.
 
-Un sistema que posee un único procesador de un núcleo es capaz de realiza multitarea mediante la concurrencia. Los tiempos del procesador se reparten por el planificador de procesos del Sistema Operativo. Si el sistema es suficientemente rápido y el planificador realiza su trabajo correctamente la apariencia para el usuario es que todo ser está haciendo a un mismo tiempo, aunque esto no es así.
+Un sistema que posee un único procesador de un núcleo es capaz de realizar multitarea mediante la concurrencia. Los tiempos del procesador se reparten por el planificador de procesos del Sistema Operativo. Si el sistema es suficientemente rápido y el planificador realiza su trabajo correctamente la apariencia para el usuario es que todo ser está haciendo a un mismo tiempo, aunque esto no es así.
 
 Los sistemas con varios procesadores o con varios núcleos permiten ejecutar varias instrucciones en un único ciclo de reloj (al mismo tiempo). Esto permite ejecutar en paralelo varias instrucciones, lo que se conoce como procesamiento paralelo. Los procesos se dividen en pequeños subprocesos (hilos) que se ejecutan en los diferentes núcleos o procesadores, consiguiendo realizar el mismo trabajo de manera más rápida.
 
@@ -146,31 +148,262 @@ Los hilos de ejecución son fracciones de programa que, si cumplen con determina
 
 Al formar parte del mismo proceso son extremadamente económicos en referencia a los recursos que utilizan.
 
-Los programas que se ejecutan en un único hilo se denominan programas monohilo, mientras que los que se ejecutan en varios hilos se conocen como programas multihilo.
+Los programas que se ejecutan en un único hilo se denominan programas **monohilo**, mientras que los que se ejecutan en varios hilos se conocen como programas **multihilo**.
 
 ## `Fork` (bifurcación)
 
 Una bifurcación/fork, es una copia idéntica de un proceso. El proceso original se denomina **padre** y sus copias, **hijos**, teniendo todos ellos diferentes identificadores de proceso (PID). La copia creada continúa con el estado del proceso original (padre), pero a partir de la creación cada proceso mantiene su propio estado de memoria.
 
->En Java existe el framework Fork/Join desde la versión 7. Que Proporciona herramientas aprovechar los núcleos del sistema operativo y realizar procesamiento paralelo.
+>En `Java` existe el framework Fork/Join desde la versión 7. Que Proporciona herramientas aprovechar los núcleos del sistema operativo y realizar procesamiento paralelo.
 
-##  Problemas inherentes a la programación concurrente
+Consulta el [Ejemplo01](##Ejemplo01)
 
-A la hora de crear un programa concurrente podemos encontramos con dos problemas:
+##  Problemas de la programación concurrente
 
-- **Exclusión mutua**. En programación concurrente es muy típico que varios procesos accedan a la vez a una variable compartida para actualizarla. Esto se debe evitar, ya que puede producir inconsistencia de datos: uno puede estar actualizando la variable a la vez que otro la puede estar leyendo. Por ello es necesario conseguir la exclusión mutua de los procesos respecto a la variable compartida. Para ello se propuso la **región crítica**. Cuando dos o más procesos comparten una variable, el acceso a dicha variable debe efectuarse siempre dentro de la región crítica asociada a la variable. Solo uno de los procesos podrá acceder para actualizarla y los demás deberán esperar,
-  el tiempo de estancia es finito.
-  
-  > Ejemplos de variables compartidas pueden ser:
-  >
-  > - El stock de un producto para una tienda online
-  > - Tu saldo en la entidad bancaria
-  
-- **Condición de sincronización**. Hace referencia a la necesidad de coordinar los procesos con el fin de sincronizar sus actividades. Puede ocurrir que un proceso P1 llegue a un estado X que no pueda continuar su ejecución hasta que otro proceso P2 haya llegado a un estado Y de su ejecución. La programación concurrente proporciona mecanismos para bloquear procesos a la espera de que ocurra un evento y para desbloquearlos cuando este ocurra.
+A la hora de crear un programa concurrente podemos encontramos con varios problemas:
 
-Algunas herramientas para manejar la concurrencia son: la región crítica, los semáforos, región crítica condicional, buzones, sucesos, monitores y sincronización por rendez-vous.
+### Secciones críticas
+
+Las secciones críticas son uno de los problemas que con mayor frecuencia se dan en programación concurrente. Tenemos varios procesos que se ejecutan de forma concurrente y cada uno de ellos tiene una parte de código que debe ejecutarse de forma exclusiva ya que accede a recursos compartidos como archivos, variables comunes, registros de bases de datos, etc .
+
+La solución pasará por obligar a acceder a los recursos a través de la ejecución de un código que llamaremos **sección crítica** y que nos permitirá proteger aquellos recursos con mecanismos que impidan la ejecución simultánea de dos o más procesos dentro de los límites de la sección crítica .
+
+Estos algoritmos de sincronización que eviten el acceso a una región crítica por más de un hilo o proceso y que garantizan que únicamente un proceso estará haciendo uso de este recurso y el resto que quieren utilizarlo estarán a la espera de que sea liberado, se llama **algoritmo de exclusión mutua**.
+
+> Exclusión mutua (**MUTEX**, mutual exclusion en inglés) es el tipo de sincronización que impide que dos procesos ejecuten simultáneamente una misma sección crítica.
+
+Un mecanismo de sincronización en forma de código que proteja a la sección crítica deberá tener una forma como el siguiente:
+
+
+```java
+Enter_MUTEX // request to execute critical section
+/* Critical section code */
+Exit_MUTEX // another process can run the critical section
+```
+
+`Enter_MUTEX` representa la parte del código en la que los procesos piden permiso para entrar en la sección crítica. La `Exit_MUTEX` en cambio, representa la parte que ejecutan los procesos cuando salen de la sección crítica liberando la sección y permite a otros procesos entrar en ella.
+
+Para validar cualquier mecanismo de sincronización de una sección crítica deben cumplirse los siguientes criterios:
+
+- **Exclusión mutua:** no puede haber más de un proceso simultáneamente en la sección crítica.
+- **No inanición:** un proceso no puede esperar un tiempo indefinido para entrar a ejecutar la sección crítica.
+- **No interbloqueo:** ningún proceso de fuera de la sección crítica puede impedir que otro proceso entre en la sección crítica.
+- **Independencia del hardware:** inicialmente no deben realizarse suposiciones respecto al número de procesadores o la velocidad de los procesos.
+
+Un error de consistencia típico cuando no existe control sobre una sección crítica se puede ilustrar con el ejemplo de dos procesos que quieren modificar una variable común `x`. El proceso `A` quiere incrementarla: `x++`. El proceso `B` disminuyó: `x--`. Si ambos procesos acceden a leer el contenido de la variable al mismo tiempo, ambos obtendrán el mismo valor, si realizan su operación y guardan el resultado, éste será inesperado. Dependerá de quien salve el valor de `x` en último lugar.
+
+La tabla inferior muestra un ejemplo similar. Un código es accesible por dos hilos o procesos, vemos que si no existe ningún tipo de control sobre el acceso, el primer hilo accede a las instrucciones y antes de llegar a la instrucción de incremento de la variable a++, el segundo proceso entra a ejecutar el mismo código. El resultado es que el segundo proceso toma el valor 4, por tanto erróneo, ya que el primer proceso no habría aumentado la variable.
+
+|Proceso 1 | Tiempo | Proceso 2 |
+| ------------------ | :---: | -----------------: |
+| `System.out.print(a);` | 1     |                    |
+|                    | 2     | `System.out.print(a);` |
+| `a=a+4;`           | 3     |                    |
+|                    | 4     | `a=a+4;`           |
+| `System.out.print("+4=");` | 5     |                    |
+| `System.out.println(a);` | 6     |                    |
+|                    | 7     | `System.out.print("+4=");` |
+|                    | 8     | `System.out.println(a);` |
+
+En este ejemplo supondremos qué puede representar la salida a un archivo, qué llega por parámetro a la zona crítica y que cada proceso trabaja con un archivo diferente.
+
+Supondremos también que la variable `a` tiene un valor inicial de `4` y que se trata de una variable compartida por ambos procesos. Puede imaginarse que las salidas serán bastante sorprendentes, ya que en ambos ficheros indicaría: `4+4=12`.
+
+Para evitar este problema, únicamente un hilo debería ejecutar esta parte de código de forma simultánea. Esta parte de código, que es susceptible a este tipo de error, debe declararse como sección crítica para evitar este tipo de error.
+
+Las instrucciones que forman parte de una sección crítica deben ejecutarse como si fueran una única instrucción. Se deben sincronizar los procesos para que un único proceso o hilo pueda excluir de forma temporal al resto de procesos de un recurso compartido (memoria, dispositivos, etc.) de forma que la integridad del sistema quede garantizada.
+
+
+### Productor-consumidor
+
+El problema productor-consumidor es un ejemplo clásico donde es necesario dar un tratamiento independiente a un conjunto de datos que se van generando de forma más o menos aleatoria o al menos de una forma en la que no es posible predecir en qué momento se generará una dato. Para evitar un uso excesivo de los recursos del ordenador esperando la llegada de datos, el sistema prevé dos tipos de procesos: los productores, encargados de obtener los datos a tratar y los consumidores, especializados en realizar el tratamiento de los datos obtenidos por los productores.
+
+En esta situación, el productor genera una serie de datos que el consumidor recoge. Imaginemos que es el valor de una variable que el productor modifica y el consumidor lo agarra para utilizarla. El problema viene cuando el productor produce datos a un ritmo distinto al que el consumidor los toma. El productor crea un dato y cambia la variable a su valor. Si el consumidor va más lento, el productor tiene tiempo en generar un nuevo dato y vuelve a cambiar la variable. Por tanto el proceso del consumidor ha perdido el valor del primer dato. En caso de que sea el consumidor el que va más rápido, puede ocurrir que coja dos veces un mismo dato, ya que el productor no ha tenido tiempo de sustituirlo, o que no encuentre nada que consumir. La situación puede complicarse aún más si disponemos de varios procesos productores y consumidores.
+
+En la siguiente figura podemos ver cómo dos procesos comparten un recurso común (memoria) y la ilustración del problema cuando no está sincronizado el proceso productor y el consumidor, siendo el productor más rápido que el consumidor.
+
+```mermaid
+graph LR
+A(Producer) --> C(Memory) --> B(Consumer)
+D[[Producer 4-3-2]] --> E[1] --> F(Consumer not consuming)
+G[[Producer 4-3]] --> H[2] --> I[[Consumer 2]]
+J[[Producer 4]] --> K[3] --> L[[Consumer 3]]
+```
+
+Imaginemos que en la figura anterior la memoria común es como una caja que es capaz de guardar un único dato, un entero. Existe un proceso productor que genera los números enteros y los deja en la caja. Mientras tanto hay un proceso consumidor que toma el número entero de la caja.
+
+Como es el caso, el productor deja en la memoria el número 1 y antes de que el proceso consumidor coja el dato, genera otro número, el 2, que sustituye al anterior.
+
+El consumidor ahora sí toma el número 2 pero, como podemos ver, el número 1 se ha perdido, produciendo seguramente unos resultados erróneos.
+
+Una forma de solucionar el problema consiste en ampliar la ubicación donde el productor escribe los datos de forma que sea posible mantener varios datos a la espera de que sean consumidos mientras los procesos consumidores estén ocupados. Es decir, los productores almacenarán los datos en una lista (array), que tradicionalmente se conoce como buffer y los consumidores los extraerán.
+
+> Un buffer es un espacio de memoria para almacenar datos. Se pueden implementar en forma de colas.
+
+Desgraciadamente este mecanismo no soluciona todos los problemas, ya que puede que un consumidor intente acceder a los datos a pesar de que el productor no haya escrito todavía ninguno, puede ocurrir que el espacio destinado a almacenar la colección de datos se llene debido a que la producción de datos sea siempre mucho más rápida que los procesos consumidores, o bien podría darse el caso de que dos procesos productores coincidieran a la hora de dejar un dato o que varios procesos consumidores intentaran acceder a la hora.
+
+Por tanto, debe existir un mecanismo que detenga el acceso al dato de los productores y de los consumidores en caso necesario. Una sección crítica. Desgraciadamente no es suficiente con restringir el acceso a los datos, porque podría darse el caso de que un proceso consumidor esperando la llegada de un dato impida el acceso de los procesos productores de forma que el dato no llegara nunca. Una situación como la descrita se conoce con el nombre de problemas de **interbloqueo** (**deadlock** en inglés).
+
+Llamamos **interbloqueo** a la situación extrema que nos encontramos cuando dos o más procesos están esperando la ejecución del otro para poder continuar de forma que nunca conseguirán desbloquearse.
+
+También llamamos **inanición** a la situación que se produce cuando un proceso no puede continuar su ejecución por falta de recursos. Por ejemplo si hiciéramos crecer el **buffer** ilimitadamente.
+
+Para solucionar el problema es necesario sincronizar el acceso al buffer. Se debe acceder en exclusión mutua para que los productores no alimente el buffer si éste ya está lleno y los consumidores no puedan acceder a ellos si está vacío. Pero además será necesario independizar las secciones críticas de acceso de los productores de las secciones críticas de acceso de los consumidores evitando así que se pueda producir el interbloqueo.
+
+
+Esto obligará a crear un mecanismo de comunicación entre secciones críticas de forma que cada vez que un productor deje un dato disponible, avise a los consumidores que puedan permanecer esperando que al menos uno de ellos pueda iniciar el procesamiento del dato.
+
+### Lectores-escritores
+
+Otro tipo de problema que aparece en la programación concurrente, es el producido cuando tenemos un recurso compartido entre varios procesos concurrentes como pueden ser un archivo, una base de datos, etc. que va actualizándose periódicamente. En este caso los procesos lectores no consumen el dato sino que sólo lo utilizan y por tanto se permite su consulta de forma simultánea, aunque no su modificación.
+
+Así, los procesos que accedan al recurso compartido para leer su contenido se llamarán **lectores**. En cambio, quienes accedan para modificarlo recibirán el nombre de **escritores**.
+
+Si la tarea de lectores y escritores no se realiza de forma coordinada podría ocurrir que un lector leyera varias veces el mismo dato o que el escritor modificase el contenido antes de que hubieran leído todos los lectores, o que el dato actualizado por un escritor derrochara l actualización de otro, etc. Además, la falta de coordinación obliga a los lectores a comprobar periódicamente si los escritores han hecho modificaciones, lo que aumentará el uso del procesador y por tanto podría disminuir la eficiencia.
+
+
+Este problema de sincronización de procesos se llama problema de lectores-escritores. Para evitarlo es necesario asegurar que los procesos escritores acceden de forma exclusiva al recurso compartido y que en cada modificación se avisa a los procesos lectores interesados ​​en el cambio.
+
+Así, los procesos lectores pueden permanecer en espera hasta que son avisados ​​de que existen nuevos datos y pueden empezar a leer; de esta forma se evita que los lectores estén constantemente accediendo al recurso sin que el escritor haya puesto ningún nuevo dato, optimizando, de este modo, los recursos.
+
+Otros problemas sobre los que puedes pensar:
+
+- [La cena de los filosofos](https://es.wikipedia.org/wiki/Problema_de_la_cena_de_los_fil%C3%B3sofos)
+- [El barbero durmiente](https://es.wikipedia.org/wiki/Problema_del_barbero_durmiente)
+
+## Algunas soluciones a estos problemas
+
+A lo largo de la historia se han propuesto soluciones específicas para los problemas anteriores que merece la pena tener en cuenta, aunque resulta difícil generalizar una solución ya que dependen de la complejidad, la cantidad de secciones críticas, del número de procesos que requieran exclusión mutua y de la interdependencia existente entre procesos. Aquí veremos la sincronización por medio de **semáforos**, de **monitores** y de **paso de mensajes**.
+
+### Semáforos
+
+Imaginemos una carretera de un solo carril que debe pasar por un túnel. Hay un semáforo en cada extremo del túnel que nos indica cuándo podemos pasar y cuándo no. Si el semáforo está en verde, el coche pasará de forma inmediata y el semáforo pasará a rojo hasta que salga. Este símil nos introduce en la definición real de un semáforo.
+
+<img src="/assets/Semaforo.png" alt="img" style="zoom:33%;" />
+
+Los semáforos son una técnica de sincronización de memoria compartida que impide la entrada del proceso en la sección crítica bloqueándolo. El concepto fue introducido por el informático holandés [Dijkstra](https://en.wikipedia.org/wiki/Edsger_W._Dijkstra) para resolver el problema la exclusión mutua y permitir resolver gran parte de los problemas de sincronización entre procesos.
+
+
+Los semáforos, no sólo controlan el acceso a la sección crítica sino que además disponen de información complementaria para poder decidir si es necesario o no, bloquear el acceso de aquellos procesos que lo soliciten. Así, por ejemplo, serviría para solucionar problemas sencillos (con poca interdependencia) del tipo escritores-lectores o productores-consumidores.
+
+La solución por ejemplo en el caso de los escritores-lectores pasaría por hacer que los lectores antes de consultar la sección crítica pidieran permiso de acceso al semáforo, el cual en función de si se encuentra bloqueado (rojo) o liberado (verde) detendrá la ejecución del proceso solicitante o bien le dejará continuar.
+
+Los escritores por otra parte, antes de entrar en la sección crítica, manipularán el semáforo poniéndolo en rojo y no volverán a ponerlo en verde hasta que hayan terminado de escribir y abandonen la sección crítica.
+
+El semáforo admite 3 operaciones:
+
+- **Inicializa (initial)**: se trata de la operación que permite poner en marcha el semáforo. La operación puede recibir un valor por parámetro que indicará si éste empezará boqueado (rojo) o liberado (verde).
+- **Libera(s) (sendSignal)**: cambia el valor interno del semáforo poniéndolo en verde (lo libera). Si existen procesos en espera, los activa para que finalicen su ejecución.
+- **Bloquea(s) (sendWait)**: sirve para indicar que el proceso actual quiere ejecutar la sección crítica. En caso de que el semáforo se encuentre bloqueado, se detuvo la ejecución del proceso. También permite indicar que es necesario poner el semáforo en rojo.
+
+En caso de que se necesite exclusión mutua, el semáforo dispondrá también de un sistema de espera (por medio de colas de procesos) que garantice el acceso a la sección crítica de un único proceso al mismo tiempo.
+
+
+En realidad, la implementación de un semáforo dependerá mucho del problema a resolver, aunque la dinámica del funcionamiento sea siempre muy similar. Así por ejemplo los semáforos que apoyen el problema de tipo productor-consumidor, necesitan implementarse utilizando exclusión mutua tanto para liberar como para bloquear. Además, la ejecución de liberación incrementará en una unidad un contador interno, mientras que la ejecución de bloqueo aparte de detener el proceso cuando el semáforo se encuentre bloqueado, disminuirá en una unidad el contador interno.
+
+Teniendo en cuenta que los procesos productores ejecutarán siempre la operación de liberación (incrementando el contador interno) y los procesos consumidores pedirán acceso ejecutando la operación de bloqueo (que disminuirá el contador interno), es fácil ver que el valor del contador será siempre igual a la cantidad de datos que los productores ha generado sin que los consumidores hayan todavía consumido.
+
+ Así podemos deducir que si en algún momento el valor llega al valor cero, significará que no hay datos a consumir y por tanto haremos que el semáforo se encuentre siempre bloqueado en este caso, pero se desbloquee en cuanto el contador incremente su valor.
+
+Además de resolver problemas de tipo productor-consumidor o lector-escritor, podemos utilizar semáforos para gestionar problemas de sincronización donde un proceso tenga que activar la ejecución de otro o de exclusión mutua asegurando que sólo un proceso conseguirá acceder en la sección crítica porque el semáforo permanecerá bloqueado hasta la salida.
+
+
+Así si queremos sincronizar dos procesos haciendo que uno de ellos (`p1`) ejecute una acción siempre antes que la otra (`p2`), usando un semáforo, lo inicializaremos en `0` para asegurar que se encuentra bloqueado. La codificación del proceso `p2` asegura que antes de cualquier llamada a la acción a controlar, solicitará acceso al semáforo con un `sendWait`. Por el contrario, en la codificación del proceso `p1` habrá que situar siempre un llamamiento a `sendSignal` justo después de ejecutar la acción a controlar.
+
+De esta forma, nos aseguraremos que el proceso `p1` ejecutará la acción siempre antes que `p2`. Como ejemplo, imaginamos dos procesos. Uno debe escribir `Hola`, (proceso `p1`) y el proceso `p2` debe escribir `mundo`. El orden correcto de ejecución es primero `p1` y después `p2`, para conseguir escribir `Hola mundo`. En caso de que el proceso `p1` se ejecute antes que `p2`, ningún problema: escribe `Hola` y hace un signal en el semáforo (`semáforo=1`).
+
+Cuando el proceso `p2` se ejecuta encontrará `semáforo=1`, por tanto no quedará bloqueado, podrá hacer un `sendWait` en el semáforo (`semáforo=0`) y escribirá mundo.
+
+¿Pero qué ocurre si se ejecuta primero el proceso `p2`? Al encontrar `semáforo=0`, se quedará bloqueado al hacer la petición llamando `sendWait` hasta que el proceso `p1` escriba `Hola` y haga el `sendSignal`, desbloqueando el semáforo. Entonces `p2`, que estaba bloqueado, se activará, pondrá el semáforo de nuevo a rojo (`semáforo=0`) y escribirá mundo en la pantalla.
+
+Otro ejemplo que puede ilustrar el uso de semáforos, sería el de una oficina bancaria que gestiona nuestra cuenta corriente a la que se puede acceder desde diferentes oficinas para ingresar dinero o sacar dinero. Estas dos operaciones modifican nuestro saldo. Serían dos funciones como las siguientes:
+
+
+```java
+public void ingressar(float diners) {
+    float aux;
+    aux = getAvailable();
+    aux = aux + money;
+    float available = aux;
+    guardarSaldo(available);
+}
+
+public void getMoney(float money) {
+    float aux;
+    aux = getAvailable();
+    aux = aux − money;
+    float available = aux;
+    putAvailable(available);
+}
+```
+
+El problema viene cuando de forma simultánea se quiere realizar un ingreso y se quiere sacar dinero. Si por un lado estamos sacando dinero de la cuenta corriente y por otro lado alguien está haciendo un ingreso, podría crearse una situación anómala. Habrá dos procesos concurrentes, uno sacará dinero y el otro ingresará. Si acceden al mismo tiempo a `leerSaldo()` los dos cogen el mismo valor, imaginamos 100€. El proceso que desea ingresar dinero, lo quiere hacer con la cantidad de 300€. Y lo que quiere sacar, quiere 30€.
+
+Si continuamos la ejecución de ambos procesos, dependiendo de cuál sea el orden de ejecución de las instrucciones, podemos encontrarnos con un saldo diferente. Si después de leer el saldo, el proceso de ingreso termina la ejecución y guarda el saldo, guardaría 400€ (100€ + 300€). Pero posteriormente acabaría el proceso de sacar dinero y guardaria a saldo el valor de 70€ (100€ - 30€).
+
+Hemos perdido el ingreso. Hay dos procesos que se están ejecutando en una sección crítica que deberíamos proteger en exclusión mutua. Únicamente un proceso debe poder acceder a esta sección crítica y poder modificar la variable compartida saldo.
+
+Para evitar el problema podemos utilizar un semáforo. Lo iniciaremos en 1, indicando el número de procesos que podrán entrar en la sección crítica. Y tanto en el proceso de sacar comidas como en el de ingresar añadiremos un `sendWait()` al inicio de las secciones críticas y un `sendSignal()` al final.
+
+```java
+public void addMoney(float money) {
+    sendWait();
+    float aux;
+    aux = getAvailable();
+    aux = aux + money;
+    float available = aux;
+    putAvailable(available);
+    sendSignal();
+}
+
+public void getMoney(float money) {
+    sendWait();
+    float aux;
+    aux = getAvailable();
+    aux = aux − money;
+    float available = aux;
+    putAvailable(available);
+    sendSignal();
+}
+```
+
+De esta forma cuando un proceso entra en la sección crítica de un método, toma el semáforo. Si es 1, podrá hacer el `sendWait`, por tanto el semáforo se pondrá a 0, cerrado. Y ningún otro proceso podrá entrar en ninguno de los dos métodos. Si un proceso intenta entrar, encontrará el semáforo a 0 y quedará bloqueado hasta que el proceso que tiene el semáforo haga un `sendSignal`, ponga el semáforo a 1 y libere el semáforo.
+
+> Utilizar semáforos es una forma eficiente de sincronizar procesos concurrentes. Resuelve de forma simple la exclusión mutua. Pero desde el punto de vista de la programación, los algoritmos son complicados de diseñar y entender, puesto que las operaciones de sincronización pueden estar dispersas por el código. Por tanto se pueden cometer errores con facilidad.
+
+### Monitores
+
+Otra forma de resolver la sincronización de procesos es el uso de monitores. Los monitores son un conjunto de procedimientos encapsulados que nos proporcionan el acceso a recursos compartidos a través de distintos procesos en exclusión mutua. Las operaciones del monitor están encapsuladas dentro de un módulo para protegerlas del programador. Únicamente un proceso puede estar en ejecución dentro de este módulo.
+
+El grado de seguridad es alto puesto que los procesos no saben cómo están implementados estos módulos. El programador no sabe cómo y en qué momento se llaman las operaciones del módulo, así es más robusto. Un monitor, una vez implementado, si funciona correctamente, siempre funcionará bien.
+
+Un monitor puede verse como una habitación, cerrada con una puerta, que tiene dentro los recursos. Los procesos que deseen utilizar estos recursos deben entrar en la habitación, pero con las condiciones que marca el monitor y únicamente un proceso a la vez. El resto que quiera hacer uso de los recursos tendrá que esperar a que salga lo que está dentro.
+
+Por su encapsulación, la única acción que debe tomar el programador del proceso que quiera acceder al recurso protegido es informar al monitor. La exclusión mutua está implícita. Los semáforos, en cambio, deben implementarse con una secuencia correcta de señal y esperar a fin de no bloquear el sistema.
+
+> Un monitor es un algoritmo que realiza una abstracción de datos que nos permite representar de forma abstracta un recurso compartido mediante un conjunto de variables que definen su estado. El acceso a estas variables sólo es posible desde unos métodos del monitor.
+
+Los monitores deben poder incorporar un mecanismo de sincronización. Por tanto, deben implementarse. Se puede utilizar señales. Estas señales se utilizan para impedir los bloqueos. Si el proceso que está en el monitor debe esperar una señal, se pone en estado de espera o bloqueado fuera del monitor, permitiendo que otro proceso haga uso del monitor. Los procesos que están fuera del monitor, están a la espera de una condición o señal para volver a entrar.
+
+Estas variables que se utilizan por las señales y son utilizadas por el monitor para la sincronización se llaman variables de condición. Éstas pueden ser manipuladas con operaciones de `sendSignal` y `sendWait` (como los semáforos).
+
+- `sendWait`: un proceso que está esperando a un evento indicado por una variable de condición abandona de forma temporal el monitor y se pone en la cola que corresponde a su variable de condición.
+
+- `sendSignal`: desbloquea un proceso de la cola de procesos bloqueados con la variable de condición indicada y se pone en estado preparado para entrar en el monitor. El proceso que entra no debe ser el que más tiempo lleva esperando, pero debe garantizarse que el tiempo de espera de un proceso sea limitado. Si no existe ningún proceso en la cola, la operación sendSignal no tiene efecto, y el primer proceso que solicite el uso del monitor entrará.
+
+Un monitor consta de 4 elementos:
+
+- **Variables o métodos permanentes o privados**: son las variables y métodos internos en el monitor que sólo son accesibles desde dentro del monitor. No se modifican entre dos llamadas consecutivas al monitor.
+- **Código de inicialización**: inicializa las variables permanentes, se ejecuta cuando el monitor es creado.
+- **Métodos externos o exportados**: son métodos que son accesibles desde fuera del monitor por los procesos que quieren entrar a utilizarlos.
+- **Cola de procesos**: es la cola de procesos bloqueados a la espera de la señal que los libere para volver a entrar en el monitor.
+
+En el campo de la programación, un **monitor** es un objeto en el que todos sus métodos están implementados bajo exclusión mutua. En el lenguaje `Java` son objetos de una clase en los que todos sus métodos públicos son `synchronized`.
+
+Un **semáforo** es un objeto que permite sincronizar el acceso a un recurso compartido y un monitor es una interfaz de acceso al recurso compartido. Son el encapsulamiento de un objeto, por lo que hace un objeto más seguro, robusto y escalable.
 
 # Procesos
+
 
 Se puede definir un proceso como un programa en ejecución. Consiste básicamente en el código ejecutable del programa, los datos, la pila del programa, el contador de programa, el puntero de pila y otros registros, y toda la información necesaria para ejecutar el programa.
 
@@ -182,11 +415,12 @@ El **BCP** es una estructura de datos llamada **Bloque de Control de Proceso** d
 
 * Estado del proceso.
 * Contador de programa.
-* Registros de CPU.
+* Registros de la CPU.
 * Información de planificación de CPU como la prioridad del proceso.
 * Información de gestión de memoria.
 * Información contable como la cantidad de tiempo de CPU y tiempo real consumido.
 * Información de estado de E/S como la lista de dispositivos asignados, archivos abiertos, etc.
+
 
 ## Gestión y estados de procesos
 
@@ -207,13 +441,14 @@ Los objetivos del planificador son los siguientes:
 
 Se puede sintetizar que el objetivo del planificador es conseguir que todos los procesos terminen lo antes posible aprovechando al máximo los recursos del sistema. La tarea, como se puede suponer, es compleja.
 
+
 > El planificador muchas veces se basa en estadisticas de conjuntos de procesos ya ejecutados, puede ser dificil a priori estimar la necesidad de recursos de un proceso que todavía no se ha ejecutado, esto hace que diseñar un buen planificador sea crítico y al mismo tiempo muy complicado. Puede ser óptimo para un conjunto de procesos determinado y un desastre para otro.
 
 Existen muchos algoritmos para la planificación de los procesos, pero su enumeración y explicación están fuera del alcance de este libro. No obstante, hay que considerar que cada sistema operativo utiliza sus propias estrategias de gestión de recursos a distintos niveles y que dichas estrategias influyen de manera directa en el funcionamiento del sistema.
 
 Un proceso aunque es una entidad independiente puede generar una salida que se use como entrada para otro proceso. Entonces este segundo proceso tendrá que esperar a que el primero termine para obtener los datos a procesar, en este caso debe bloquearse hasta que sus datos de entrada estén disponibles. Un proceso también se puede parar porque el sistema operativo decida asignar el procesador a otro proceso. En definitiva, el diagrama de estados en los que se pueden encontrar un proceso son los siguientes:
 
-![Diagrama de estados de procesos](/assets/cover.png)
+![Diagrama de estados de procesos](/assets/ProcessState.png)
 
 
 
@@ -246,10 +481,10 @@ En la siguiente figura se muestra un posible ejemplo de flujo de ejecución de u
 
 ```mermaid
 graph LR
-A(Proceso 1) --> C(Proceso 1.1)
-C --> D(Proceso 1.1.1)
-C --> E(Proceso 1.1.2)
-A --> B(Proceso 1.2) --> F(Proceso 1.2.1)
+A(Process 1) --> C(Process 1.1)
+C --> D(Process 1.1.1)
+C --> E(Process 1.1.2)
+A --> B(Process 1.2) --> F(Process 1.2.1)
 ```
 
 Las condiciones que determinan dicho flujo son las siguientes:
@@ -296,9 +531,9 @@ En Java, la creación de un proceso se puede realizar de dos maneras diferentes:
 
 ## Creación de procesos con `Runtime`
 
-Toda aplicación Java tiene una única instancia de la clase Runtime que permite que la propia aplicación interactúe con su entorno de ejecución a través del método estático getRuntime. Este método proporciona un «canal» de comunicación entre la aplicación y su entorno, posibilitando la interacción con el sistema operativo a través del método exec.
+Toda aplicación Java tiene una única instancia de la clase `Runtime` que permite que la propia aplicación interactúe con su entorno de ejecución a través del método estático `getRuntime`. Este método proporciona un canal de comunicación entre la aplicación y su entorno, posibilitando la interacción con el sistema operativo a través del método `exec`.
 
-El siguiente código Java genera un proceso en Windows indicando al entorno de ejecución (al sistema operativo) que ejecute el bloc de notas a través del programa «Notepad.exe». En este caso, la llamada se realiza sin parámetros y sin gestionar de ninguna manera el proceso generado.
+El siguiente código Java genera un proceso en Windows indicando al entorno de ejecución (al sistema operativo) que ejecute el bloc de notas a través del programa `Notepad.exe`. En este caso, la llamada se realiza sin parámetros y sin gestionar de ninguna manera el proceso generado.
 
 ```java
 Runtime.getRuntime().exec("Notepad.exe");
@@ -306,33 +541,33 @@ Runtime.getRuntime().exec("Notepad.exe");
 
 En muchos casos, los procesos necesitan parámetros para iniciarse. El método exec puede recibir una cadena de caracteres (un objeto de la clase String) y en dicha cadena, separados por espacios, se indicarán, además del programa que se desea ejecutar, los diferentes parámetros.
 
-En el siguiente código se está ejecutando el bloc de notas indicando que «notas.txt» es el fichero que debe abrir o crear si no existe.
+En el siguiente código se está ejecutando el bloc de notas indicando que `notes.txt` es el fichero que debe abrir o crear si no existe.
 
 ```java
-Runtime.getRuntime().exec("Notepad.exe notas.txt");
+Runtime.getRuntime().exec("Notepad.exe notes.txt");
 ```
 
 Alternativamente, se puede crear el proceso proporcionando un array de objetos String con el nombre del programa y los parámetros.
 
 ```java
-String[] infoProceso = ("Notepad.exe","notas.txt");
-Runtime.getRuntime().exec(infoProceso);
+String[] procesInfo = ("Notepad.exe","notes.txt");
+Runtime.getRuntime().exec(procesInfo);
 ```
 
 El siguiente nivel consiste en gestionar el proceso lanzado. Para ello, se debe obtener la referencia a la instancia de la clase Process proporcionada por el método exec. Es este objeto el que proporciona los métodos para conocer el estado de la ejecución del proceso.
 
 ```java
-String[] infoProceso = ("Notepad.exe","notas.txt");
-Process proceso = Runtime.getRuntime().exec(infoProceso) ;
+String[] procesInfo = ("Notepad.exe", "notes.txt");
+Process p = Runtime.getRuntime().exec(procesInfo) ;
 ```
 
 Si se necesita esperar a que el proceso ejecutado termine y conocer el estado en que ha finalizado dicha ejecución, se puede utilizar el método waitFor. Este método suspende la ejecución del programa que ha arrancado el proceso quedando a la espera de que este termine, proporcionando además el código de finalización.
 
 ```java
-String[] infoProceso = ("Notepad.exe","notas.txt");
-Process proceso = Runtime.getRuntime().exec(infoProceso);
-int codigoRetorno = proceso.waitFor();
-System.out.println("Fin de la ejecución:" + codigoRetorno);
+String[] procesInfo = ("Notepad.exe","notes.txt");
+Process p = Runtime.getRuntime().exec(procesInfo);
+int returnCode = p.waitFor();
+System.out.println("Fin de la ejecución:" + returnCode);
 ```
 
 La clase `Process` representa al proceso en ejecución y permite obtener información sobre este. Los principales métodos que proporciona dicha clase son los que se recogen en la siguiente tabla:
@@ -347,11 +582,18 @@ La clase `Process` representa al proceso en ejecución y permite obtener informa
 | `isAlive()`         | Determina si el proceso está o no en ejecución.              |
 | `waitFor()`         | Detiene la ejecución del programa que lanza el proceso a la espera de que este último termine. |
 
+La clase `Runtime` nos permite por ejemplo también sabe el número de procesadores del sistema:
+
+```java
+int processors = Runtime.getRuntime().availableProcessors();
+System.out.println("CPU cores: " + processors);
+```
+
 > Más información: [API de Java 8](https://docs.oracle.com/javase/8/docs/api/java/lang/)
 
 ## Creación de procesos con `ProcessBuilder`
 
-La clase ProccessBuilder permite, al igual que Runtime, crear procesos.
+La clase `ProccessBuilder` permite, al igual que `Runtime`, crear procesos.
 
 La creación más sencilla de un proceso se realiza con un único parámetro en el que se indica el programa a ejecutar. Es importante saber que esta construcción no supone la ejecución del proceso.
 
@@ -359,27 +601,27 @@ La creación más sencilla de un proceso se realiza con un único parámetro en 
 new ProcessBuilder("Notepad.exe");
 ```
 
-La ejecución del proceso se realiza a partir de la invocación al método start:
+La ejecución del proceso se realiza a partir de la invocación al método `start`:
 
 ```java
 new ProcessBuilder("Notepad.exe").start();
 ```
 
-El constructor de ProcessBuilder admite parámetros que serán entregados al proceso que se crea.
+El constructor de `ProcessBuilder` admite parámetros que serán entregados al proceso que se crea.
 
 ```java
-new ProcessBuilder("Notepad.exe","datos.txt").start();
+new ProcessBuilder("Notepad.exe","data.txt").start();
 ```
 
-Al igual que ocurre con el método exec de la clase Runtime, el método start de ProcessBuilder proporciona un proceso como retorno, lo que posibilita la sincronización y gestión de este.
+Al igual que ocurre con el método `exec` de la clase `Runtime`, el método `start` de `ProcessBuilder` proporciona un proceso como retorno, lo que posibilita la sincronización y gestión de este.
 
 ```java
-Process proceso = new ProcessBuilder("Notepad.exe", "datos.txt").start();
+Process proceso = new ProcessBuilder("Notepad.exe", "data.txt").start();
 int valorRetorno = proceso.waitFor();
-System.out.println("Valor retorno:" + valorRetorno);
+System.out.println("Return value:" + valorRetorno);
 ```
 
-El método start permite crear múltiples subprocesos a partir de una única instancia de ProccessBuilder. El siguiente código crea diez instancias del bloc de notas de Windows.
+El método `start` permite crear múltiples subprocesos a partir de una única instancia de `ProccessBuilder`. El siguiente código crea diez instancias del bloc de notas de Windows.
 
 ```java
 ProcessBuilder pBuilder = new ProcessBuilder("Notepad.exe");
@@ -388,7 +630,7 @@ for (int i=0; i<10;i++){
 }
 ```
 
-Además del método start, la clase ProcessBuilder dispone de métodos para consultar y gestionar algunos parámetros relativos a la ejecución del proceso. Los métodos más relevantes de ProcessBuilder se muestran en la siguiente tabla:
+Además del método `start`, la clase `ProcessBuilder` dispone de métodos para consultar y gestionar algunos parámetros relativos a la ejecución del proceso. Los métodos más relevantes de `ProcessBuilder` se muestran en la siguiente tabla:
 
 | Método           | Descripción                                                  |
 | ---------------- | ------------------------------------------------------------ |
@@ -402,27 +644,577 @@ Además del método start, la clase ProcessBuilder dispone de métodos para cons
 
 A continuación, se muestran algunos ejemplos relacionados con los métodos expuestos.
 
-El siguiente código crea un objeto ProcessBuilder y determina el directorio de trabajo del proceso:
+El siguiente código crea un objeto `ProcessBuilder` y determina el directorio de trabajo del proceso:
 
 ```java
-ProcessBuilder pBuilder = new ProcessBuilder ("Notepad.exe", "datos.txt");
-PBuilder.directory (new File("c:/directorio_salida/"));
+ProcessBuilder pBuilder = new ProcessBuilder ("Notepad.exe", "data.txt");
+PBuilder.directory (new File("~/output_folder/"));
 ```
 
-Para acceder a la información del entorno de ejecución, el método environment devuelve un objeto Map con la información proporcionada por el sistema operativo. El siguiente ejemplo muestra por pantalla el número de procesadores disponibles en el sistema:
+Para acceder a la información del entorno de ejecución, el método `environment` devuelve un objeto `Map` con la información proporcionada por el sistema operativo. El siguiente ejemplo muestra por pantalla el número de procesadores disponibles en el sistema:
 
 ```java
-ProcessBuilder pBuilder = new ProcessBuilder("Notepad.exe","datos.txt");
-java.util.Map<String, String> env = pBuilder.environment();
-System.out.println("Número de procesadores:" + env.get ("NUMBER_OF_PROCESSORS"));
+public static void main(String[] args) {
+    ProcessBuilder pBuilder = new ProcessBuilder("Notepad.exe", "data.txt");
+    java.util.Map<String, String> env = pBuilder.environment();
+    System.out.println(env.toString());
+}
 ```
+
+La salida debe ser parecida a esta (dependiendo del sistema operativo):
+
+```sh
+{PATH=/home/ubuntu/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin, XAUTHORITY=/home/ubuntu/.Xauthority, J2D_PIXMAPS=shared, XDG_DATA_DIRS=/usr/share/plasma:/usr/local/share:/usr/share:/var/lib/snapd/desktop, MANDATORY_PATH=/usr/share/gconf/plasma.mandatory.path, JAVA_HOME=/usr/lib/jvm/java-14-openjdk-amd64, KDE_SESSION_UID=1000, XDG_CONFIG_DIRS=/etc/xdg/xdg-plasma:/etc/xdg:/usr/share/kubuntu-default-settings/kf5-settings, DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus, XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0, LANG=ca_ES.UTF-8, XDG_SESSION_ID=3, XDG_SESSION_TYPE=x11, DEFAULTS_PATH=/usr/share/gconf/plasma.default.path, NB_DESKTOP_STARTUP_ID=pubuntu;1659112328;418005;2225_TIME1197225, XDG_CURRENT_DESKTOP=KDE, QT_AUTO_SCREEN_SCALE_FACTOR=0, DISPLAY=:0, SSH_AGENT_PID=2150, SESSION_MANAGER=local/pubuntu:@/tmp/.ICE-unix/2201,unix/pubuntu:/tmp/.ICE-unix/2201, LOGNAME=ubuntu, PAM_KWALLET5_LOGIN=/run/user/1000/kwallet5.socket, PWD=/home/ubuntu, _=/usr/lib/jvm/java-11-openjdk-amd64/bin/java, XCURSOR_THEME=breeze_cursors, XDG_SESSION_CLASS=user, LANGUAGE=, KDE_SESSION_VERSION=5, SHELL=/bin/bash, GDK_BACKEND=x11, GPG_AGENT_INFO=/run/user/1000/gnupg/S.gpg-agent:0:1, DESKTOP_SESSION=plasma, OLDPWD=/usr/local/netbeans-12.4/netbeans, USER=ubuntu, KDE_FULL_SESSION=true, QT_ACCESSIBILITY=1, XDG_SEAT=seat0, SSH_AUTH_SOCK=/tmp/ssh-lAjPhr3yUzjz/agent.2101, XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session1, XDG_RUNTIME_DIR=/run/user/1000, XDG_VTNR=1, XDG_SESSION_DESKTOP=KDE, SHLVL=0, HOME=/home/ubuntu}
+```
+
+Observa el [Ejemplo02](##Ejemplo02)
+
+## Diferencias entre Runtime y ProcessBuilder
+
+Te estarás preguntando... ¿por qué hay dos formas de hacer lo mismo? Bueno, la clase `Runtime` pertenece al núcleo de Java desde su primera versión, mientras que `ProcessBuilder` se agregó en Java 5. Con `ProcessBuilder` puede agregar variables de entorno y cambiar el directorio de trabajo actual para que se inicie el proceso. Dichas características no están disponibles para la clase `Runtime`. Además, hay algunas diferencias sutiles entre estas dos clases. Por ejemplo, la clase `Runtime` nos permite ejecutar un comando pasando toda la cadena como argumento, sin dividirla en argumentos separados en una matriz:
+
+```java
+Process p = Runtime.getRuntime.exec("ls -l");
+```
+
+## Multiproceso en Java
+
+### Sincronización
+
+En Java, la ejecución de objetos no está protegida. Si queremos aplicar exclusión mutua a Java debemos utilizar la palabra reservada synchronized en la declaración de atributos, de métodos o en un bloque de código dentro de un método.
+
+Todos los métodos con el modificador synchronized se ejecutarán con exclusión mutua.
+
+El modificador asegura que si se está ejecutando un método sincronizado ningún otro método sincronizado pueda ejecutarse. Pero los métodos no sincronizados pueden estar ejecutándose y con más de un proceso a la vez. Además, únicamente el método sincronizado puede estar ejecutado por un proceso, el resto de procesos que desean ejecutar el método tendrán que esperar a que termine el proceso que lo está ejecutando.
+
+```java
+ public synchronized void synchronizedMethod {
+ 	//synchronized code
+ }
+```
+
+Si no nos interesa sincronizar todo el método, sino únicamente una parte del código, utilizaremos la palabra reservada synchronized sobre el mismo objeto que ha llamado el método en el que se encuentra la parte del código a sincronizar.
+
+
+```java
+public void notSynchronizedMethod {
+	//not synchronized code
+    synchronized(this){
+    	//synchronized code
+    }
+    //not synchronized code
+}
+```
+
+`this` es el objeto que ha llamado al método, pero también podemos utilizar otro objeto `synchroniced(objeto)`, si lo que queremos es realizar más de una operación atómica sobre un objeto.
+
+Java, por tanto, nos proporciona con `synchronized` los recursos que nos daría la implementación de un semáforo o de un monitor. Sus librerías nos proporcionan un acceso en exclusión mutua y controlan los errores de bloqueo o interbloqueo que se puedan ocasionar entre hilos en ejecución.
+
+### Atomicidad de una operación y clases atómicas de Java
+
+El único árbitro que tenemos en la gestión de procesos es el planificador. Se encarga de decidir qué proceso utiliza el procesador. Luego las instrucciones u operaciones que forman el proceso se van ejecutando en el procesador siguiendo un orden concreto.
+
+Una operación o un grupo de operaciones deben poder ejecutarse como si fueran una única instrucción. Además, no pueden ejecutarse de forma concurrente con cualquier otra operación en la que haya involucrado un dato o recurso que utiliza la primera operación.
+
+> La atomicidad de una operación es poder garantizar que no se pueden ejecutar dos operaciones de forma concurrente si utilizan un recurso compartido hasta que una de las dos deja libre este recurso. Una operación atómica únicamente debe observar dos estados: el inicial y el resultado. Una operación atómica, o se ejecuta por completo o no lo hace en absoluto.
+
+La atomicidad real son las instrucciones que ejecutan a código máquina. Por el contrario, la atomicidad modelo es un grupo de instrucción, a código máquina, que se ejecuta de forma atómica.
+
+
+#### Clases de operaciones atómicas
+
+La instrucción `x++;` o `x=x+1;` tiene la siguiente secuencia de instrucciones atómicas reales:
+
+1. Leer valor `x`
+2. Añadir a `x` `1`
+3. Guardar valor `x`
+
+La atomicidad de modelo entiende la instrucción completa, `x=x+1` como atómica.
+
+Dos procesos ejecutan en paralelo el siguiente ejemplo:
+
+
+```java
+public class AtomicOperations {
+    public static void main(String[] args) {
+        int x = 0;
+        x = x + 1;
+        System.out.println(x);
+    }
+}
+```
+
+Si tenemos en cuenta que ambos procesos ejecutan en paralelo la instrucción `x=x+1;` en la atomicidad real una ordenación de ejecución sería la siguiente:
+
+| | Proceso 1 (x=x+1) | Proceso 2 (x=x+1) |
+| ---- | --------------------- | --------------------- |
+| 1 | `int x=0;` | `int x=0;` |
+| 2 | Leer valor `x` | |
+| 3 | | Leer valor `x` |
+| 4 | Añadir 1 a `x` | |
+| 5 | | Añadir 1 a `x` |
+| 6    | Guardar valor `x`     |                       |
+| 7    |                       | Guardar valor `x`     |
+| 8 | `System.out.println(x);` | `System.out.println(x);` |
+
+
+Dependiendo del orden de ejecución de las operaciones atómicas de un proceso y otro, el resultado o el valor de x puede variar.
+
+#### Clases atómicas de Java
+
+Las clases atómicas de Java son una primera solución a los problemas de procesos concurrentes. Permiten ejecutar algunas operaciones como si fueran atómicas reales.
+
+Una operación atómica tiene únicamente dos estados: el inicial y el resultado, es decir, se completa sin interrupciones desde el inicio hasta el final.
+
+En Java, el acceso a las variables de tipos primitivos (excepto double y long) es atómico. Al ser también atómico el acceso a todas las variables de tipo primitivo en las que aplicamos el modificador volatile.
+
+Java asegura la atomicidad del acceso a las variables volátiles o primitivas, pero no a sus operaciones. Esto significa que la operación `x++;` en la que x es un `int`, no es una operación atómica y por tanto no es un hilo seguro.
+
+Java incorpora, desde la versión 1.5, en el paquete `java.util.concurrent.atomic`, las clases que nos permiten convertir en atómicas (hilos seguros) algunas operaciones, como aumentar, reducir, actualizar y añadir un valor. Todas las clases tienen métodos `get` y `set` que también son atómicas.
+
+Las clases que incorpora son:
+
+ `AtomicBoolean`, `AtomicInteger`, `AtomicIntegerArray`, `AtomicLong`, `AtomicLongArray` y actualizadores que son básicamente derivados de una variable tipo `volatile` y son `AtomicIntegerFieldUpdater`, `AtomicLongFieldUpdater` y `AtomicReferenceFieldUpdater`.
+
+Por tanto, podemos convertir la operación x++ ox=x+1 en una operación atómica.
+
+> Volatile es un modificador, utilizado en la programación concurrente, que puede aplicarse a algunos tipos primitivos de variables. Indica que el valor de la variable quedará guardado en la memoria y no en un registro del procesador. Así, es accesible por otro proceso o hilo para su modificación. Por ejemplo:
+> `volatile int c;`
+
+
+```java
+public class Counter {
+    private int x = 0;
+    public void increase() {
+        x++;
+    }
+    public void decrease() {
+        x--;
+    }
+    public int getCounter() {
+        return x;
+    }
+}
+```
+
+Para convertir a operaciones atómicas el ejemplo anterior, utilizaremos los métodos de la clase `AtomicInteger` del paquete `java.util.concurrent.atomic.AtomicInteger`.
+
+
+```java
+import java.util.concurrent.atomic.AtomicInteger;
+public class AtomicCounter {
+    private AtomicInteger x = new AtomicInteger(0);
+    public void increase() {
+        x.incrementAndGet();
+    }
+    public void decrease() {
+        x.decrementAndGet();
+    }
+    public int getValorContadorAtomic() {
+        return x.get();
+    }
+}
+```
+
+#### Colecciones concurrentes
+
+Las colecciones son objetos que contienen múltiples datos de un mismo tipo. Las colecciones pueden estar involucradas también en la ejecución de procesos concurrentes y ser utilizadas por diferentes procesos de forma que se acaben compartiendo también los datos contenidos en la colección.
+
+En Java para trabajar con colecciones debemos utilizar el Framework `Collections` en el que se encuentran los paquetes `java.util` y `java.util.concurrent`, que contienen las clases e interfaces que nos permiten crear colecciones.
+
+En Java las interfaces `List<E>`, `Set<E>` y `Queue<E>` serían las colecciones más importantes. Representan listas, conjuntos y colas. `Map<E>` es también una colección de clave valor. Cada una con sus características de ordenación, los métodos de inserción, extracción y consulta, si permiten elementos repetidos o no, etc.
+
+El problema con estas colecciones es que en la programación concurrente en la que sean compartidas por distintos procesos o hilos de forma simultánea, podrían dar resultados inesperados.
+
+
+Algunos lenguajes de programación solucionaron este problema sincronizando las clases. En Java se utiliza, por ejemplo, `Collections.synchronizedList(List<T> list)` sobre la interfaz `List<E>` para poder sincronizar la clase que la implementa, la clase `ArrayList`. Otras clases que implementan la interfaz `List` es `Vector`. Java ya sincroniza esta clase.
+
+En la versión 1.5 apareció `java.util.concurrent` que incorpora clases que nos permiten solucionar problemas de concurrencia de forma simple. `ArrayList` es una colección de datos y si queremos que sea utilizada por distintos hilos de ejecución lo que debemos hacer es sincronizar todas las operaciones de lectura y escritura para preservar la integridad de los datos. Si este `ArrayList` es muy consultado y poco actualizado, la sincronización penaliza mucho el acceso. Java crea la clase `CopyOnWriteArrayList`, que es la ejecución de hilo seguro de una `ArrayList`.
+
+La interfaz `BlockingQueue` implementa una cola `FIFO`, que bloquea el hilo de ejecución si intenta sacar de la cola un elemento y la cola está vacía o si intenta insertar un elemento y está llena. También contiene métodos que hacen que el bloqueo dure un tiempo determinado antes de dar un error de inserción o lectura y evitar así una ejecución infinita.
+
+La clase `SynchronousQueue` es una cola de bloqueo, implementa en `BlockingQueue`. Lo que hace es que por cada operación de inserción debe esperar una eliminación y por cada inserción debe espera una eliminación.
+
+`ConcurrentMap` es otra clase que define una tabla `hash` con operaciones atómicas.
+
+
+### Comunicación con mensajes
+
+Una solución a los problemas de concurrencia de procesos, muy adecuada sobre todo a los sistemas distribuidos, son los mensajes. Recordemos que un sistema distribuido no comparte memoria, por tanto no es posible la comunicación entre procesos con variables compartidas.
+
+Este sistema de sincronización y comunicación está incluido en la mayoría de sistemas operativos y se utiliza tanto para la comunicación entre distintos ordenadores, como para comunicar entre procesos de un mismo ordenador. La comunicación a través de mensajes siempre necesita un proceso emisor y otro receptor para poder intercambiar información. Por tanto, las operaciones básicas serán enviar (mensaje) y recibir (mensaje).
+
+Dado que en esta comunicación pueden estar implicados diversos procesos, es necesario permitir a las operaciones básicas identificar quién es el destinatario e incluso convendría en ocasiones identificar al emisor. Habrá que extender las operaciones básicas incorporando a quién va dirigido el mensaje o cómo el receptor podría indicar de quién espera el mensaje.
+
+Según la forma de referenciar al destinatario y al emisor, hablaremos de envío de mensajes en **comunicación directa** o **comunicación indirecta**.
+
+En la **comunicación directa**, el emisor identifica al receptor explícitamente cuando envía un mensaje y viceversa, el receptor identifica explícitamente al emisor que le envía el mensaje. Se crea un vínculo de comunicación entre el proceso emisor y proceso receptor. Las órdenes de envío y recepción serían:
+
+- `enviar(A,mensaje)` → Enviar un mensaje al proceso A
+
+- `recibir(B,misstage)` → Recibir un mensaje del proceso B
+
+
+Este sistema de comunicación ofrece una gran seguridad, ya que identifica los procesos que actúan en la comunicación y no introduce ningún retraso a la hora de identificar los procesos. Por otra parte, esto también es una desventaja, ya que cualquier cambio en la identificación de procesos implica un cambio en la codificación de las órdenes de comunicación.
+
+La comunicación directa sólo es posible implementar si podemos identificar los procesos. Es decir, será necesario que el sistema operativo y el lenguaje de programación soporten la gestión de procesos. También es necesario que los procesos se ejecuten en un mismo ordenador, ya que sino es imposible acceder a ellos de forma directa.
+
+Cuando los procesos se ejecuten en distintos ordenadores, será necesario interponer entre ellos un sistema de mensajería que envíe y recoja los mensajes con independencia de cuál sea el proceso emisor y receptor. Sólo será necesario que ambos procesos tengan acceso al mismo sistema de intercambio de mensajes y que éste permita identificar de algún modo al emisor y al receptor. Hay que darse cuenta de que se trata de identificación interna del sistema de mensajería. En ningún caso son referencias directas a los procesos.
+
+En la **comunicación indirecta** se desconocen las referencias a los procesos emisores y receptores del mensaje. Es necesaria la existencia de un sistema de mensajería capaz de distribuir mensajes identificados con algún valor específico y único, y permitir a los procesos la consulta de los mensajes a partir de ese identificador para distinguir a los vayan dirigidos a ellos. En cierta forma es cómo vehicular la comunicación a través de un **buzón común** (el identificador). El emisor envía el mensaje a un buzón específico y el receptor recoge el mensaje del mismo buzón.
+
+
+Las órdenes serían de la siguiente forma:
+
+- `enviar(BuzónA,mensaje)` → El proceso emisor deja el mensaje en el buzón A
+- `recibir(BuzónA,mensaje)` → El proceso receptor recoge el mensaje del buzón A
+
+Este sistema es más flexible que la comunicación directa ya que nos permite tener más de un enlace de comunicaciones entre ambos procesos y podemos crear enlaces de tipo uno a muchos, muchos a uno y muchos a muchos. En los enlaces de comunicación uno a muchos como los sistemas cliente/servidor los buzones se llaman puertos.
+
+Estos múltiples enlaces no podrían realizarse con el sistema de comunicación directa. El sistema operativo es el encargado de realizar la asociación de los buzones a los procesos y puede hacerlo de forma dinámica o estática.
+
+Por otra parte, si tenemos en cuenta la inmediatez en la recepción de los mensajes entre procesos hablaremos de: **comunicación síncrona o asíncrona**.
+
+En la **comunicación síncrona** el proceso que envía un mensaje a otro proceso se queda a la espera de recibir respuesta. Por tanto, el emisor queda bloqueado hasta que recibe esta respuesta. Y viceversa. 
+
+En cambio, en la **comunicación asíncrona** el proceso que envía el mensaje continúa su ejecución sin preocuparse de si el mensaje ha sido recibido o no. Por tanto aquí tendrá que existir un búfer o que se vayan acumulando los mensajes. El problema vendrá cuando el búfer se encuentre lleno. El proceso que envía el mensaje queda bloqueado hasta que encuentra el espacio en el búfer.
+
+Un símil a estos dos tipos de sincronización podría ser el envío de mensajes a través de correo electrónico o una llamada telefónica. El primero, que va dejando los mensajes en un buzón sin preocuparse si los receptor lo recibe o no, sería una **comunicación asíncrona**. En cambio, en una llamada telefónica la comunicación es totalmente **síncrona** ya que el emisor y el receptor deben coincidir en el tiempo.
+
+
+### Implementación usando Java
+
+La comunicación y sincronización entre procesos de ordenadores distintos conectados en red (sistemas distribuidos) requieren de un mecanismo de transferencia que asuma la comunicación indirecta, los zócalos o sockets. Se trata de unas bibliotecas que disponen de todos los mecanismos necesarios para enviar y recibir mensajes a través de la red.
+
+Dentro del mismo ordenador, Java dispone de métodos como `wait()`, `notify()` y `notifyAll()`, que modifican el estado de un hilo deteniendo o activando la ejecución de los procesos referenciados. Estos métodos deben ser invocados siempre dentro de un blog sincronizado (con el modificador `synchronize`).
+
+- `wait()`: coloca el hilo que se está ejecutando en estado de espera. Este hilo abandona la zona de exclusión mutua y espera, en una cola de espera, a ser vuelto a activar por un método `notify()` o `notifyAll()`.
+- `notify()`: un hilo de la cola de espera pasa al estado de preparado.
+- `notifyAll()`: todos los hilos de la cola de espera pasan al estado de preparado.
+
+Cuando un proceso entra en la sección crítica, es decir, que controla el monitor, ningún otro hilo puede entrar en la sección crítica del mismo objeto que está controlado por el mismo monitor. Para poder coordinarse y comunicarse se harán uso de los métodos anteriores.
+
+Cuando no se dan las condiciones para continuar con la ejecución de un hilo que se encuentra en la sección crítica, éste puede abandonar la sección y permitir que otro hilo que se encuentra en espera pueda tomar el monitor y entrar en la sección crítica . En la siguiente figura se muestra cómo dos hilos quieren acceder a un recurso común y se comunican para sincronizarse. Imaginemos que el recurso compartido es una tarjeta SIM de un teléfono móvil. 
+
+![Sincronización de procesos en Java](/assets/Monitor.png)
+
+El hilo 1 quiere acceder a la tarjeta para realizar una llamada, coge el monitor del recurso compartido para tener acceso exclusivo a la tarjeta, pero la SIM no está activada todavía. La condición para poder ejecutarse no se cumple. Por tanto, ejecuta el método wait() que lo mantiene en espera hasta que la condición se cumpla. Cualquier otro proceso que quiera realizar la llamada y coja el monitor hará lo mismo.
+
+El hilo 2 es un proceso que se encarga de activar la tarjeta SIM. Al tomar el monitor tiene acceso con exclusión mutua a la tarjeta. Realiza las sentencias para activar la SIM y ejecuta notify(). Esta sentencia notifica al primer hilo, que está en la cola de procesos en espera, que ya se cumplen las condiciones para poder continuar la ejecución de los procesos de llamadas y libera al monitor. La diferencia entre `notify()` y `notifyAll()` es que la notificación se realiza a un hilo en espera o a todos. Por último, el hilo 1 toma el monitor y ejecuta sus sentencias de llamada.
+
+En Java, haciendo uso de `synchronized` se crean semáforos. Si añadimos los métodos `wait()`, `notify()` o `notifyAll()` crearemos monitores fácilmente y de forma eficiente.
+
+Mira el ejemplo resuelto del problema de los [productores-consumidores](##Ejemplo03)
+
+
+# Ejemplos
+
+## Ejemplo01
+**Ejemplo `fork()` (En lenguaje c)**
+
+```c
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+//ABUELO-HIJO-NIETO
+void main() {
+  pid_t pid, Hijo_pid,pid2,Hijo2_pid;
+  
+  pid = fork(); //Soy el  Abuelo, creo a Hijo
+
+  if (pid == -1 ) //Ha ocurrido un error
+  {
+    printf("No se ha podido crear el proceso hijo...");
+    exit(-1); 
+  }
+
+  if (pid == 0 )  //Nos encontramos en Proceso hijo  { 
+  {  
+    pid2 = fork();//Soy el Hijo, creo a Nieto
+    switch(pid2)
+    {
+      case -1:   // error
+         printf("No se ha podido crear el proceso hijo en el HIJO...");
+         exit(-1); 
+         break;        
+      case 0:    // proceso hijo 
+         printf("\t\tSoy el proceso NIETO %d; Mi padre es = %d \n", 
+                     getpid(), getppid());
+         break;
+      default:   // proceso padre 
+        Hijo2_pid=wait(NULL);
+        printf("\tSoy el proceso HIJO %d, Mi padre es: %d.\n", 
+                  getpid(), getppid());    
+        printf("\tMi hijo: %d terminó.\n", Hijo2_pid);             
+    }
+  }
+
+  else    //Nos encontramos en Proceso padre
+  {
+   Hijo_pid = wait(NULL); //espera la finalización del proceso hijo
+   printf("Soy el proceso ABUELO: %d, Mi HIJO: %d terminó.\n",
+           getpid(),  pid);     
+   }
+   exit(0);
+}
+```
+
+Ejemplo de compilación y ejecución (en linux):
+
+```sh
+$ gcc Ejemplo01.c -o Ejemplo01
+$ ./Ejemplo01
+                Soy el proceso NIETO 10746; Mi padre es = 10745 
+        Soy el proceso HIJO 10745, Mi padre es: 10744.
+        Mi hijo: 10746 terminó.
+Soy el proceso ABUELO: 10744, Mi HIJO: 10745 terminó.
+```
+
+## Ejemplo02
+
+En este ejemplo se crea un proceso para llamar al comando `ls` (se espera que se ejecute en Linux o Mac OS X), con el opción `-l` para tener una lista detallada de archivos y carpetas del directorio actual. Luego, captura la salida y lo imprime en la consola (o salida estándar).
+
+```java
+public class Ejemplo02 {
+
+    public static void main(String[] args) {
+        String[] cmd = {"ls", "-l"};
+        String line = "";
+        ProcessBuilder pb = new ProcessBuilder(cmd);
+
+        try {
+            Process p = pb.start();
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(p.getInputStream()));
+            System.out.println("Process output:");
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (Exception e) {
+            System.err.println("Exception:" + e.getMessage());
+
+        }
+    }
+}
+```
+
+Ejemplo de salida de su ejecución:
+
+```sh
+Process output:
+total 13
+drwxrwxrwx 1 root root    0 de jul.  29 18:44 build
+-rwxrwxrwx 1 root root 3521 de jul.  27 18:29 build.xml
+-rwxrwxrwx 1 root root 1243 de jul.  27 18:47 Ejemplo01.c
+-rwxrwxrwx 1 root root   82 de jul.  27 18:29 manifest.mf
+drwxrwxrwx 1 root root 4096 de jul.  27 18:29 nbproject
+drwxrwxrwx 1 root root    0 de jul.  27 18:31 src
+drwxrwxrwx 1 root root    0 de jul.  29 18:43 test
+```
+
+## Ejemplo03
+
+**Versión 1**
+
+Vamos a desarrollar el problema del **Productor-Consumidor**, veamos primero cual es el problema: crearemos dos tipos de hilos: un `Productor` que pondrá algunos datos (por ejemplo, un entero) en un objeto dado (lo llamaremos `SharedData`), y un `Consumidor` que obtendrá estos datos. Nuestra clase `SharedData.java` es esta:
+
+```java
+public class SharedData {
+
+    int data;
+
+    public int get() {
+        return data;
+    }
+
+    public void put(int newData) {
+        data = newData;
+    }
+}
+```
+
+Y las clases `Producer.java`:
+
+```java
+public class Producer extends Thread {
+
+    SharedData data;
+
+    public Producer(SharedData data) {
+        this.data = data;
+    }
+
+    @Override
+    public void run() {
+        for (int i = 0; i < 50; i++) {
+            data.put(i);
+            System.out.println("Produced number " + i);
+            try {
+                Thread.sleep(10);
+            } catch (Exception e) {
+            }
+        }
+    }
+}
+```
+
+y `Consumer.java`:
+
+```java
+public class Consumer extends Thread {
+
+    SharedData data;
+
+    public Consumer(SharedData data) {
+        this.data = data;
+    }
+
+    @Override
+    public void run() {
+        for (int i = 0; i < 50; i++) {
+            int n = data.get();
+            System.out.println("Consumed number " + n);
+            try {
+                Thread.sleep(10);
+            } catch (Exception e) {
+            }
+        }
+    }
+}
+```
+
+La aplicación principal `Test.java` creará un objeto `SharedData` y un subproceso de cada tipo, e iniciará ambos.
+
+```java
+public class Test {
+    public static void main(String[] args) {
+        SharedData sd = new SharedData();
+        Producer p = new Producer(sd);
+        Consumer c = new Consumer(sd);
+        p.start();
+        c.start();
+    }
+}
+```
+
+En el resultado podemos observar algunos problemas:
+
+```sh
+run:
+Consumed number 0
+Produced number 0
+Consumed number 0
+Produced number 1
+Consumed number 1
+Produced number 2
+Produced number 3
+Consumed number 3
+Produced number 4
+```
+
+**Versión 2**
+
+Podríamos pensar que, si solo añadimos la palabra clave `synchronized` a los métodos `get` y `put` de la clase `SharedData`, resolveríamos el problema:
+
+```java
+public class SharedData {
+    int data;
+    public synchronized int get() {
+        return data;
+    }
+    public synchronized void put(int newData) {
+        data = newData;
+    }
+}
+```
+
+Sin embargo, si volvemos a ejecutar el programa, podemos notar que aún falla:
+
+```java
+run:
+Consumed number 0
+Produced number 0
+Consumed number 0
+Produced number 1
+Produced number 2
+Consumed number 1
+Produced number 3
+Consumed number 3
+Produced number 4
+```
+
+**Versión 3**
+
+De hecho, hay dos problemas que tenemos que resolver. Pero empecemos por la más importante: el productor y el consumidor tiene que trabajar coordinados: tan pronto como el productor pone un número, el consumidor puede obtenerlo, y el productor no podrá producir más números hasta que el consumidor obtenga los anteriores. 
+
+Para ello, necesitamos agregar algunos cambios a nuestra clase `SharedData`. En primer lugar, necesitamos una bandera que diga a productores y consumidores quien es el siguiente. Dependerá de si hay nuevos datos que consumir (turno para el consumidor) o no (turno para el productor).
+
+```java
+public class SharedData {
+
+    int data;
+    boolean available = false;
+
+    public synchronized int get() {
+        available = false;
+        return data;
+    }
+
+    public synchronized void put(int newData) {
+        data = newData;
+        available = true;
+    }
+}
+```
+
+**Versión 4**
+
+Además, debemos asegurarnos de que los métodos `get` y `put` se llamen alternativamente. Para hacer esto, necesitamos utilizar el indicador booleano y los métodos `wait` y `notify`/`notifyAll`, de esta manera:
+
+```java
+public class SharedData {
+
+    int data;
+    boolean available = false;
+
+    public synchronized int get() {
+        if (!available) {
+            try {
+                wait();
+            } catch (Exception e) {
+            }
+        }
+        available = false;
+        notify();
+        return data;
+    }
+
+    public synchronized void put(int newData) {
+        if (available) {
+            try {
+                wait();
+            } catch (Exception e) {
+            }
+        }
+        data = newData;
+        available = true;
+        notify();
+    }
+}
+```
+
+Fíjate cómo usamos los métodos `wait` y `notify`. Con respecto al método `get` (llamado por el `Consumer`), si no hay nada disponible, esperamos. Luego, obtenemos el número, configuramos la bandera en falso nuevamente y notificamos al otro hilo. 
+
+En el método `put` (llamado por el `Producer`), si hay algo disponible, esperamos hasta que alguien nos notifique. Luego, hacemos `set`  de los nuevos datos, configuramos la bandera en `true` nuevamente y notificamos al otro hilo. 
+
+Si ambos hilos intentan llegar a la sección crítica al mismo tiempo, el `Consumer` tendrá que esperar (la bandera se establece en `false` al principio), y `Producer` establecerá los primeros datos que se consumirán. A partir de entonces, los hilos se alternaran en la sección crítica, consumiendo y produciendo nuevos datos cada vez.
 
 # Fuentes de información
 
-- [Wikipedia](https://es.wikipedia.org)
+- [Wikipedia](https://en.wikipedia.org)
 - [Programación de servicios y procesos - FERNANDO PANIAGUA MARTÍN [Paraninfo]](https://www.paraninfo.es/catalogo/9788413665269/programacion-de-servicios-y-procesos)
 - [Programación de Servicios y Procesos - ALBERTO SÁNCHEZ CAMPOS [Ra-ma]](https://www.ra-ma.es/libro/programacion-de-servicios-y-procesos-grado-superior_49240/)
-- [Programación de Servicios y Procesos - Mª JESÚS RAMOS MARTÍN - [Garceta] (1ª Edición)](https://www.garceta.es)
+- [Programación de Servicios y Procesos - Mª JESÚS RAMOS MARTÍN - [Garceta] (1ª y 2ª Edición)](https://www.garceta.es)
 - [Programación de servicios y procesos - CARLOS ALBERTO CORTIJO BON [Sintesis]](https://www.sintesis.com/desarrollo%20de%20aplicaciones%20multiplataforma-341/programaci%C3%B3n%20de%20servicios%20y%20procesos-ebook-2910.html)
 - [Programació de serveis i processos - JOAR ARNEDO MORENO, JOSEP CAÑELLAS BORNAS i JOSÉ ANTONIO LEO MEGÍAS [IOC]](https://ioc.xtec.cat/materials/FP/Recursos/fp_dam_m09_/web/fp_dam_m09_htmlindex/index.html)
 -  GitHub repositories:

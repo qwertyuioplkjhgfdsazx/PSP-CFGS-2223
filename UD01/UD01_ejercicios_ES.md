@@ -1,444 +1,287 @@
 ﻿---
-    title: Ejercicios de la UD01
-    language: ES
-    author: David Martínez Peña [www.martinezpenya.es]
-    subject: Programación
-    keywords: [PRG, 2021, Programacion, Java]
-    IES: IES Mestre Ramón Esteve (Catadau) [iesmre.es]
-    header: ${title} - ${subject} (ver. ${today}) 
-    footer:${currentFileName}.pdf - ${author} - ${IES} - ${pageNo}/${pageCount}
-    typora-root-url:${filename}/../
-    typora-copy-images-to:${filename}/../assets
-    imgcover:/media/DADES/NextCloud/DOCENCIA/PRG_2122/PRG-CFGS-2122/UD01/assets/cover.png
+title: Ejercicios de la UD01 
+language: ES
+author: David Martínez Peña [www.martinezpenya.es]
+subject: Programación de Servicios y Procesos
+keywords: [PSP, 2022, Programacion, servicios, procesos, multihilo, Java]
+IES: IES Eduardo Primo Marqués (Carlet) [www.ieseduardoprimo.es]
+header: ${title} - ${subject} (ver. ${today}) 
+footer:${currentFileName}.pdf - ${author} - ${IES} - ${pageNo}/${pageCount}
+typora-root-url:${filename}/../
+typora-copy-images-to:${filename}/../assets
+imgcover:/media/DADES/NextCloud/DOCENCIA/PSP_2223/PSP-CFGS-2223/UD01/assets/cover.png
 ---
 [toc]
 
-# Retos
-
-1. Reto 1: haga un programa que evalúe una expresión que contenga literales de los cuatro tipos de datos (booleano, entero, real y carácter) y la muestre por pantalla.
-
-2. Reto 2: en su entorno de trabajo, cree el programa siguiente. Obsérvese que pasa exactamente. Entonces, intente arreglar el problema.
-   
-   ```java
-   // Un programa que usa un entero muuuuy grande
-   public class TresMilMilions {
-   	public static void main (String [] args) {
-    		System.out.println (3000000000);
-   	}
-   }
-   ```
-   
-3. Reto 3: haga un programa con dos variables que, sin usar ningún literal ninguna parte excepto para inicializar estas variables, vaya estimando e imprimiendo sucesivamente los 5 primeros valores de la tabla de multiplicar del 4. Puede usar operadores aritméticos y de asignación, si desea.
-
-4. Reto 4: haga dos programas, uno que muestre por pantalla la tabla de multiplicar del 3, y otro, la del 5. Los dos deben ser exactamente iguales, letra por letra, excepto en un único literal dentro de todo el código.
-
-5. Reto 5: experimente qué pasa si en el siguiente programa inicializa la variable realLargo con un valor con varios decimales. El programa continúa compilando? ¿Qué resultado da? Después inténtelo asignando un valor superior al rango de los enteros (por ejemplo, 3000000000.0).
-
-   ```java
-   public class ConversionExplicita {
-   	public static void main (String [] args) {
-    		double realLlarg = 300.0;
-    		// Asignación incorrecta. ¿Un real tiene decimales, no?
-    		long enterLlarg = (long) realLlarg;
-    		// Asignación incorrecta. ¿Un entero largo tiene un rango mayor que un entero, no?
-    		int enter = (int) enterLlarg;
-    		System.out.println (enter);
-       }
-   }
-   ```
-
-6. Reto 6: haga un programa que muestre en pantalla de forma tabulada la tabla de verdad de una expresión de disyunción entre dos variables booleanas.
-
-7. Reto 7: haga un programa que muestre por pantalla la multiplicación de tres números reales entrados por teclado.
-
 # Ejercicios
 
-1. Probar la E/S elemental: Escribe el pequeño programa que aparece a continuación.
+1. Cree un proyecto llamado `ProcessListPNG` con un programa que le pida al usuario que introduzca una ruta (por ejemplo, `/micarpeta/fotos`), y luego inicie un proceso que imprima una lista de todas las imágenes PNG encontradas en esta ruta. Intenta hacerlo de forma recursiva (ya sea con un comando del sistema operativo o con tu propio script).
+
+2. Cree un programa Java llamado ReadName.java que reciba un nombre de los argumentos main() y lo muestre en la pantalla. Utiliza System.exit(1) para una terminación correcta del programa y System.exit(-1) en caso de que no se hayan ingresado los argumentos correctos en main().
+
+   A continuación, cree un programa similar al siguiente:
 
    ```java
-   import java.util.*;
-   public class EntradaSalida {
-       public static void main (String arg[]){
-           Scanner tec = new Scanner(System.in);
-           int a, b;
-           System.out.println("Introduce un número entero");
-           a = tec.nextInt();
-           System.out.println("Introduce otro número entero");
-           b = tec.nextInt();
-           System.out.println("Los números introducidos son " + a + " y " + b);
+   import java.io.*;
+   
+   /**
+    *
+    * @author David Martínez (wwww.martinezpenya.es|iesmre.com)
+    */
+   public class Test {
+   
+       public static void main(String[] args) throws IOException {
+           //create File Object where the example is located
+           File folder = new File(".\\bin");
+           //process to execute
+           ProcessBuilder pb = new ProcessBuilder("java", "example");
+           //move to that folder
+           pb.directory(folder);
+           System.out.format("Working folder: %s%n", pb.directory());
+           //run the process
+           Process p = pb.start();
+           //get the output of the process
+           try {
+               InputStream is = p.getInputStream();
+               int c;
+               while ((c = is.read()) != -1) {
+                   System.out.println((char) c);
+               }
+               is.close();
+           } catch (Exception e) {
+               e.printStackTrace();
+           }
        }
    }
+   
    ```
 
-   Ejecútalo para ver como se comporta el programa.
+  para ejecutar `ReadName.java`. Utiliza el método waitFor() para verificar el valor de salida del proceso en ejecución. Prueba la ejecución del programa dando valor a los argumentos de main() y sin darle valor. ¿Qué devuelve waitFor() en un caso y en otro?
 
-   ¿Qué ocurre si cuando nos pide un número entero le damos un número real? ¿Y si le damos un carácter no numérico?
 
-   ¿Qué ocurre si eliminamos la instrucción `import java.util.*`;
+3. Cree un proyecto llamado `ProcessKillNotepad` con un programa que inicie el bloc de notas o cualquier editor de texto similar desde su sistema operativo. Luego, el programa esperará 10 segundos a que finalice el subproceso y, transcurrido ese tiempo, será destruido. Para dormir 10 segundos, usa esta instrucción:
 
-2. Averigua mediante pruebas:
-
-   1. ¿Es posible escribir dos instrucciones en la misma línea de un programa?
-   2. ¿Se puede "romper" una instrucción entre varias líneas?
-   3. Algunos lenguajes de programación dan un valor por defecto a las variables cuando las declaramos sin inicializarlas. Otros no permiten usar el contenido de una variable que no haya sido previamente inicializada. ¿Cuál es comportamiento de Java? 
-
-3. ¿Cuáles de los siguientes identificadores son válidos y cuales no? Pruébalos cuando tengas duda
-   1. `n`
-   2. `MiProblema`
-   3. `MiJuego`
-   4. `Mi Juego`
-   5. `Int`
-   6. `Jose&Co`
-   7. `A b`
-   8. `1rApellido`
-   9. `aaaaaaaaaaaa`
-   10. `Nombre_Apellidos`
-   11. `Saldo-actual`
-   12. `Universidad Alicante`
-   13. `Juan=Rubio`
-   14. `Edad5`
-   15. `_5Java`
-
-4. (Por2) Escribir un programa que lea un entero desde teclado, lo multiplique por 2, y a continuación escriba el resultado en la pantalla:
-
-   Ejemplo de ejecución:
-
-   ```sh
-   Escribe un número:
-   3
-   El doble de 3 es 6
+   ```java
+    Thread.sleep(milliseconds);
    ```
 
-5. (Intercambio) Escribir un programa que …
+4. Cree un proyecto llamado `Lavavajillas`. Vamos a simular un proceso de lavado de platos en casa, cuando alguien lava los platos y alguien más los seca. Crea las siguientes clases:
 
-   1. Lea desde teclado dos valores enteros. Llama a las variables v1 y v2.
-   2. Muestre los valores introducidos por el usuario
-   3. Intercambie el valor de v1 y v2 (v1 pasa a  valer lo que valía v2 y viceversa)
-   4. Muestre de nuevo los valores, ahora con su valor intercambiado
+   - Una clase `Plato` con solo un atributo entero: el número del plato (para identificar los diferentes platos).
 
-   Ejemplo de ejecución:
+   - Una clase `DishPile` que almacenará hasta 5 platos. Tendrá un método de lavado que pondrá un plato en la pila (si hay espacio disponible), y un método de secado que sacará un plato de la pila (si hay alguno). Tal vez necesite un parámetro Plato en el método de lavado para agregar un plato a la pila.
 
-   ```sh
-   Escribe un número para v1: 2
-   Escribe un número para v2: 9
-   Antes de intercambiar	 v1: 2   y	 v2: 9
-   Después de intercambiar	 v1: 9	 y	 v2: 2
-   ```
+   - Un hilo `Washer` que recibirá un número N como parámetro, y un objeto `DishPile`. En su método run, pondrá (lavará) N platos en la pila, con una pausa de 50ms entre cada plato.
 
-6. Escribir las siguientes expresiones siguiendo la sintaxis de Java.
+   - Un hilo `Dryer` que recibirá un número N como parámetro, y un objeto `DishPile`. En su método de ejecución, sacará (secará) N platos de la pila, con una pausa de 100 ms entre cada plato.
 
-   1. $$
-      \frac{x}{y}+1
-      $$
-   
-   2. $$
-      \frac{x+y}{x-y}
-      $$
-      
-   3. $$
-      \frac{b}{c+d}
-      $$
-      
-   4. $$
-      (a+b)²
-      $$
-   
-   5. $$
-      \frac{x+\frac{y}{2}}{x-\frac{y}{z}}
-      $$
-   
-   6. $$
-      \frac{xy}{1-4Zx}
-      $$
-   
-   7. $$
-      (a+b)\frac{c}{d}
-      $$
-   
-   8. $$
-      \frac{xy}{mn}
-      $$
-   
-7. (Superficie) Escribir un programa que solicite al usuario la longitud y la anchura de una habitación y a continuación muestre su superficie (longitud por anchura).
+   - La clase `main` creará el objeto `DishPile` y un hilo de cada tipo (`Washer` y `Dryer`). Tendrán que lavar/secar 20 platos coordinadamente, por lo que el resultado debe ser algo así:
 
-8. (Medidas) Escribir un programa que convierta una medida dada en pies a sus equivalentes en yardas, pulgadas, centímetros  y metros, sabiendo que 1 pie = 12 pulgadas, 1 yarda = 3 pies, 1 pulgada = 2.54 cm, 1 m = 100 cm.
-
-9. (Segundos) Escribir un programa que, dada una cantidad de segundos, introducida por teclado, la desglose en días, horas, minutos y segundos.  
-
-   Ejemplo de ejecución: 
-
-   ```sh
-   Introduce cantidad de segundos: 3661
-   3661 segundos son:
-   0 dias
-   1 horas
-   1 minutos
-   1 segundos
-   ```
-
-10. (Fuerza) La fuerza de atracción entre dos masas m1 y m2 separadas por una distancia d, está dada por la fórmula:
-    $$
-    F= \frac{(G · m1 · m2)}{d^2}
-    $$
-
-    *donde G es la constante de gravitación universal G= 6.693 · 10 ^–11^.* 
-
-    Escribir un programa que lea la masa de dos cuerpos y la distancia entre ellos y a continuación obtenga su fuerza de atracción.
-
-11. (Círculo) Escribir un programa que calcule la longitud de la circunferencia y el área del círculo para un valor del radio introducido por teclado.
-
-12. (Dados) Escribir un programa que simula el lanzamiento de dos dados.
-
-    ```sh
-    Dado 1 : 5
-    Dado 2: 4
-    Puntuación total: 9
-    ```
-
-13. (UltimaCifra) Escribir un programa que muestre la última cifra de un número entero que introduce el usuario por teclado. *Pista: ¿Qué devuelve a%10 ?*
-
-    ```sh
-    Introduce un número entero: 3761
-    La última cifra de 3761 es 1
-    ```
-    
-14. (PenultimaCifra) Escribir un programa que muestre la penúltima cifra de un número entero que introduce el usuario por teclado.
-
-    ```sh
-    Introduce un número entero: 3761
-    La última cifra de 3761 es 6
-    ```
-    
-    Una vez hayas comprobado que el programa funciona correctamente, prueba qué ocurre si el usuario introduce un valor de una sola cifra (por ejemlo 4). Explica el resultado mostrado por el programa.
-    
-15. (Redondear1) `Math.round(x)` redondea x de manera que este queda sin decimales. (*`Math.round(35.5289)` da como resultado `36`)*
-
-    Trata de escribir un programa en el que el usuario introduzca un número real y a continuación se muestre redondeado a un decimal. *Pista : combinar productos, divisiones y Math.round()*
-
-    Ejemplo de ejecución:
-
-    ```sh
-    Introduce un número real: 35.5289
-    El número 35.5289, redondeado a un decimal es 35.5
-    ```
-16. Cuál es el valor resultante de dada una de las siguientes expresiones
-
-    1. `5 * 4 – 3 * 6`
-    2. `4 * 5 * 2`
-    3. `(24 + 2 * 6) / 4`
-    4. `8 / 2 / 2 * 5`
-    5. `3 + 4 * (8  * (4 –  (9 + 3) /  6 ))`
-    6. `4 * 3 * 5 + 8 * 4 * 2`
-    7. `4 – 40 % 5`
-    8. `4 * 3 / 2`
-    9. `4 / 2 * 3`
-    10. `213 /100`
-
-17. La famosa ecuación de Einstein para la conversión de una masa m en energía viene dada por la fórmula E=mc^2^, donde c es la velocidad de la luz que vale 2.997925 · 10^8^ m/s. Escribir un programa que lea el valor de la masa y obtenga la energía correspondiente según la anterior fórmula.
-
-18. Indica cuales serán los valores de las variables después de ejecutar cada uno de los siguientes fragmentos de código. Resuelve el ejercicio sin escribir los programas correspondientes y probarlos.
-
-    1. ```java
-       int a=3, b = 2;
-       a = b + b;
-       b = a + a;
-       ```
-
-    2. ```java
-       int a=3,b=0;
-       b = b - 1;
-       a = a + b;
-       ```
-
-    3. ```java
-       int a, b=5;
-       b++;
-       ++b;
-       a= b+1;
-       ```
-
-    4. ```java
-       int a = 5,b;
-       b = a++;
-       ```
-
-    5. ```java
-       int a = 5,b;
-       b = ++a;
-       ```
-
-    6. ```java
-       int a=2, b=3;
-       b+=a;
-       ```
-
-    7. ```java
-       int a=2, b=3;
-       b-=a;
-       a=-b;
-       ```
-
-    8. ```java
-       int a=2, b=3;
-       b%=a;
-       ```
-
-    9. ```java
-       int a=2,b=3,c=4;
-       a = --b + c++;
-       b+=a;
-       ```
-
-## Expresiones Lógicas
-
-Sean 4 variables enteras 
-
-```java
-int m, j, p, v ;
-```
-
-que contienen respectivamente la edad de Miguel, Julio, Pablo y Vicente. 
-
-Expresar las siguientes afirmaciones utilizando operadores lógicos y relacionales
-
-Ejemplo:	`Miguel es mayor de edad.`
-
-Solución: `m >= 18`
-
-1. Miguel es menor de edad.
-2. Miguel es mayor que Julio
-3. Miguel es el más viejo.
-4. Miguel es el más joven.
-5. Miguel  no es el más joven.
-6. Miguel no es el más viejo.
-7. Alguno de ellos es mayor de edad.
-8. Miguel y Julio son los más jóvenes.
-9. Entre todos tienen más de 100 años.
-10. Entre Miguel y Julio suman más edad que Pablo.
-11. Entre Miguel y Julio suman más edad que Pablo y Vicente juntos.
-12. Si los ordenamos por edades de menor a mayor, Julio es el segundo.
-13. Si los ordenamos por edades de menor a mayor, Julio es el segundo y Pablo el tercero.
-14. Al menos uno de ellos es menor de edad.
-15. Al menos dos de ellos son menores de edad.
-16. Todos son menores de edad.
-17. Solo dos de ellos son menores de edad.
-18. Al menos dos de ellos nacieron el mismo año.
-19. Solo dos de ellos nacieron el mismo año.
-20. Al menos uno de ellos es menor que Julio
-21. Solo uno de ellos es menor que Julio
-22. Miguel es mayor de edad y alguno de los otros es menor de edad.
+        ```sh
+        Washed dish #1, total in pile: 1
+        Drying dish #1, total in pile: 0
+        Washed dish #2, total in pile: 1
+        Drying dish #2, total in pile: 0
+        Washed dish #3, total in pile: 1
+        Washed dish #4, total in pile: 2
+        Drying dish #4, total in pile: 1
+        Washed dish #5, total in pile: 2
+        Washed dish #6, total in pile: 3
+        Drying dish #6, total in pile: 2
+        Washed dish #7, total in pile: 3
+        ...
+        ```
 
 # Actividades
+1. El objetivo de esta actividad es comprender el problema que plantea la programación concurrente cuando no se aplican métodos de protección en tramos críticos.
+   Disponemos de un sistema que controla las monedas que entran en los parquímetros cada hora para controlar el momento del día de mayor tráfico en el parking.
+   Para ello los parquímetros tienen dos procesos ejecutándose en su sistema:
+   - Un proceso contador, que contará las monedas que entren en el parquímetro.
+   - Otro proceso que cada hora envía el número de monedas a la central y pone a cero el número de monedas.
 
-1. Realiza un conversor de euros a pesetas. La cantidad de euros que se quiere convertir debe ser introducida por teclado.
+   Hay una variable compartida que tendrá el número de monedas en el parquímetro. Son dos procesos que se ejecutan concurrentemente, por lo que es posible que en un momento dado se ejecuten al mismo tiempo.
 
-2. Realiza un conversor de pesetas a euros. La cantidad de pesetas que se quiere convertir debe ser introducida por teclado.
+   Indica los posibles órdenes de ejecución de las instrucciones 1, 2 y 3 de los dos procesos si se ejecutan concurrentemente. Indique también cuál de los posibles órdenes sería el correcto.
 
-3. Escribe un programa que calcule el área de un rectángulo. (`area = base * altura`)
+   1. `sendHeadOffice(moneda)`
+   2. `moneda=0`
+   3. `moneda=moneda+1`
 
-4. Escribe un programa que calcule el área de un triángulo. (`area = (base * altura) / 2`)
+   El código de los procesos sería el siguiente:
 
-5. Escribe un programa que calcule el salario semanal de un empleado en base a las horas trabajadas, a razón de 12 euros la hora.
 
-6. Realiza un conversor de MiB a KiB. [Ayuda](https://es.wikipedia.org/wiki/Prefijo_binario)
-
-7. Realiza un conversor de Kib a Mib. [Ayuda](https://es.wikipedia.org/wiki/Prefijo_binario)
-
-8. Realiza un programa en Java que genere letras de forma aleatoria.
-
-9. Realiza un programa en Java que genere el número premiado del Cupón de la ONCE.
-
-10. Modificar el siguiente programa para que compile y funcione:
-    ```java
-    public class activ10 {
-        public static void main(String[] args) {
-            int n1 = 50, n2 = 30,
-            boolean suma = 0;
-            suma = n1 + n2;
-            System.out.println("LA SUMA ES: " + suma);
+   ```java
+   void enviaNumeroModenes(){ 
+     while (true){
+   	enviarOficinaCentral(moneda)
+   	moneda=0
+   	}
+   	   }
+      void comptadorModenes(){ 
+    	while (entradaModena==true)
+    		moneda=moneda+1
         }
+      }
     }
-    ```
+   ```
+2. Di si las siguientes afirmaciones son verdaderas (V) o falsas (F):
 
-11. Modificar el siguiente programa para que compile y funcione:
+   | No | Pregunta | V| F |
+   | ---- | -------------------------------------------------- ---------- | ----| ---- |
+   | 1 | Un proceso siempre tiene un estado | | |
+   | 2 | Un proceso y una aplicación son sinónimos | | |
+   | 3| En la programación concurrente un procesador puede ejecutar diferentes procesos al mismo tiempo | | |
 
-    ```java
-    public class activ11 {
-    	public static void main(String[] args) { 
-           	int numero = 2;
-    		cuad = numero * número;
-    		System.out.println("EL CUADRADO DE "+NUMERO+" ES: "+cuad);
-    	}
-    }
-    ```
-    
-12. Indicar que valor devolverá la ejecución del siguiente programa:
+3. Responda las siguientes preguntas:
 
-    ```java
-    public class activ12 {
-    	public static void main(String[] args) {
-        	int num = 5;
-    		num += num - 1 * 4 + 1;
-        	System.out.println(num);
-    	}
-    }
-    ```
+   - Escribir alguna característica de un programa concurrente.
 
-13. Indicar que valor devolverá la ejecución del siguiente programa:
+   - ¿Cuál es la ventaja de la concurrencia en sistemas monoprocesador?
+- ¿Cuáles son las diferencias entre multiprogramación y multihilo?
+   - ¿Cuáles son los dos principales problemas inherentes a la programación concurrente?
 
-    ```java
-    public class activ13 {
-    	public static void main(String[] args) {
-           	int num = 4;
-    		num %= 7 * num % 3 * 3;
-            System.out.println(num);
-    	}
-    }
-    ```
+4. Vaya a la siguiente URL https://hpc.llnl.gov/documentation/tutorials/introduction-parallel-computing-tutorial y responda las siguientes preguntas:
 
-14. Realizar un programa que muestre por pantalla respetando los saltos de carro el siguiente texto (con un solo `println`):
+      - Mencionar algunas características de la computación en serie.
 
-    ```sh
-    Me gusta la programación
-    cada día más
-    ```
+      - Mencionar algunas características de la computación paralela.
 
-17. Realiza un programa en Java que tenga las variables edad, nivel de estudios e ingresos y almacene en una variable llamada jasp el valor verdadero si la edad es menor o igual a 28 y el nivel de estudios es mayor a 3, o bien la edad es menor de 30 y los ingresos superiores a 28000. En caso contrario almacenar el valor falso.
-18. Realizar un programa que realice el cálculo del precio de un producto teniendo en cuenta que el producto vale 120 €, tiene un descuento del 15% y el IVA que se le aplica es del 21%.
-19. Realiza un programa que calcule la nota que hace falta sacar en el segundo examen de la asignatura Programación para obtener la media deseada. Hay que tener en cuenta que la nota del primer examen cuenta el 40% y la del segundo examen un 60%.
-    Ejemplo 1:
+      - Áreas en las que se utiliza la computación paralela.
 
-    ```sh
-    Introduce la nota del primer examen: 7
-    ¿Qué nota quieres sacar en el trimestre? 8.5
-    Para tener un 8.5 en el trimestre necesitas sacar un 9.5 en el segundo examen.
-    ```
+      - ¿Cómo utiliza el proyecto SETI@home la computación paralela?
 
-    Ejemplo 2:
 
-    ```sh
-    Introduce la nota del primer examen: 8
-    ¿Qué nota quieres sacar en el trimestre? 7
-    Para tener un 7 en el trimestre necesitas sacar un 6.33 en el segundo examen.
-    ```
+5. ¿Cuál de los siguientes sistemas operativos no es multitarea?
 
-20. Realizar un programa que dado un importe en euros nos indique el mínimo número de billetes y la cantidad sobrante de euros. Debes usar el operador condicional `?:`
+   a) Unix.
 
-    ```java
-    ¿Cuántos euros tienes?: 232
-    1 billete de 200 €
-    1 billete de 20 €
-    1 billete de 10 €
-    Sobran 2 €
-    ```
+   b)Linux.
 
+   c) Windows 10.
+
+   d) MS-DOS.
+
+6. En informática se entiende por multitarea:
+
+   a) La capacidad de una computadora para realizar tareas complejas.
+
+   b) La capacidad de una computadora para ejecutar un programa tras otro.
+
+   c) La capacidad de una computadora para realizar tareas sincronizadas entre sí.
+
+   d) La capacidad de una computadora para ejecutar varios programas al mismo tiempo.
+
+7. ¿Qué elemento del ordenador se encarga de gestionar la multitarea?
+
+   a) El lenguaje de programación elegido para crear los programas.
+
+   b) El sistema operativo.
+
+   c) El sistema de archivos.
+
+   d) Ninguna de las respuestas anteriores es correcta.
+
+8. ¿Qué afirmación sobre lenguajes de programación compilados no es correcta?
+
+   a) En condiciones normales son más rápidos que los interpretados.
+
+   b) Requieren una compilación específica para cada sistema operativo.
+
+   c) Si el lenguaje es estándar, la misma compilación funciona para todos los sistemas operativos.
+   d) Se debe compilar el código fuente para obtener el código binario a ejecutar.
+
+9. El identificador del proceso suele identificarse por las siglas:
+
+   a) CPU.
+
+   b) DPI.
+
+   c) DPI.
+
+   d) TIY.
+
+10. Procesamiento ejecutándose en diferentes computadoras independientes pero conectadas
+     y sincronizado se llama:
+
+    a) Distribuido.
+
+    b) Concurrentes.
+
+    c) Paralelo.
+
+    d) Monohilo.
+
+11. ¿Cuál de los siguientes no es un objetivo del planificador de procesos del sistema operativo?
+
+    a) Maximizar el rendimiento del sistema.
+
+    b) Maximizar los tiempos de respuesta.
+
+    c) Maximizar la equidad en la distribución de los recursos.
+
+    d) Minimizar los tiempos de espera.
+
+12. ¿Cuál es el estado al que puede ir un proceso que está en estado Listo?
+
+    a) Nuevo.
+
+    b) Bloqueado.
+
+    c) Correr.
+
+    d) Terminado.
+
+13. ¿Qué afirmación sobre la clase Java Runtime es incorrecta?
+
+    a) Permite lanzar un proceso indicando los parámetros de ejecución.
+
+    b) Permite esperar la finalización del proceso iniciado.
+
+    c) Permite conocer el valor de las variables internas del proceso lanzado.
+
+    d) Permite obtener el estado de finalización del proceso iniciado.
+
+14. ¿Cómo llamas al método de la clase Java Process que te hace esperar a que se inicie el proceso?
+
+    a) `sleep()`.
+    b) `finish()`.
+    c) `waitFor()`.
+    d) `waitEnd()`.
+
+# Actividades de aplicación
+
+1. Explicar las diferencias entre los lenguajes de programación interpretados y compilados.
+2. Describir las diferencias entre programa y proceso.
+3. Explicar en qué consiste la programación distribuida.
+4. Encuentra las diferencias entre ejecutar dos procesos o realizar una bifurcación.
+5. Diseñar un sistema basado en una base de datos para intercambiar información entre dos procesos.
+6. Diseñar un sistema basado en archivos de texto para sincronizar procesos.
+7. Decida qué sistema de sincronización podría usarse para sincronizar los procesos que se ejecutan en computadoras independientes conectadas a través de Internet.
+8. Explique por qué los hilos consumen menos recursos que los procesos.
+9. Explique qué tarea realiza el programador de procesos dentro del sistema operativo.
+10. Diseñe un planificador de procesos simple. Determina cómo se asigna el tiempo de CPU a los diversos procesos que administra para que todos puedan proceder más o menos simultáneamente.
+11. Elaborar la lista de valores y sus descripciones que puede devolver la ejecución de un proceso que tiene que acceder a una base de datos, una computadora a través de la red e Internet.
+12. Escriba un programa Java que ejecute el navegador web **Firefox**. Utiliza la clase `Runtime`. Intenta que el navegador abra directamente una página web.
 
 # Fuentes de información
 
-- [Wikipedia](https://es.wikipedia.org)
-- [Programación (Grado Superior) - Juan Carlos Moreno Pérez (Ed. Ra-ma)](https://www.ra-ma.es/libro/programacion-grado-superior_48302/)
-- Apuntes IES Henri Matisse (Javi García Jimenez?)
-- Apuntes AulaCampus
-- [Apuntes José Luis Comesaña](https://www.sitiolibre.com/)
-- [Apuntes IOC Programació bàsica (Joan Arnedo Moreno)](https://ioc.xtec.cat/materials/FP/Recursos/fp_asx_m03_/web/fp_asx_m03_htmlindex/index.html)
-- [Apuntes IOC Programació Orientada a Objectes (Joan Arnedo Moreno)](https://ioc.xtec.cat/materials/FP/Recursos/fp_dam_m03_/web/fp_dam_m03_htmlindex/index.html)
+- [Wikipedia](https://en.wikipedia.org)
+- [Programación de servicios y procesos - FERNANDO PANIAGUA MARTÍN [Paraninfo]](https://www.paraninfo.es/catalogo/9788413665269/programacion-de-servicios-y-procesos)
+- [Programación de Servicios y Procesos - ALBERTO SÁNCHEZ CAMPOS [Ra-ma]](https://www.ra-ma.es/libro/programacion-de-servicios-y-procesos-grado-superior_49240/)
+- [Programación de Servicios y Procesos - Mª JESÚS RAMOS MARTÍN - [Garceta] (1ª y 2ª Edición)](https://www.garceta.es)
+- [Programación de servicios y procesos - CARLOS ALBERTO CORTIJO BON [Sintesis]](https://www.sintesis.com/desarrollo%20de%20aplicaciones%20multiplataforma-341/programaci%C3%B3n%20de%20servicios%20y%20procesos-ebook-2910.html)
+- [Programació de serveis i processos - JOAR ARNEDO MORENO, JOSEP CAÑELLAS BORNAS i JOSÉ ANTONIO LEO MEGÍAS [IOC]](https://ioc.xtec.cat/materials/FP/Recursos/fp_dam_m09_/web/fp_dam_m09_htmlindex/index.html)
+- GitHub repositories:
+  - https://github.com/ajcpro/psp
+  - https://oscarmaestre.github.io/servicios/index.html
+  - https://github.com/juanro49/DAM/tree/master/DAM2/PSP
+  - https://github.com/pablohs1986/dam_psp2021
+  - https://github.com/Perju/DAM
+  - https://github.com/eldiegoch/DAM
+  - https://github.com/eldiegoch/2dam-psp-public
+  - https://github.com/franlu/DAM-PSP
+  - https://github.com/ProgProcesosYServicios
+  - https://github.com/joseluisgs
+  - https://github.com/oscarnovillo/dam2_2122
+  - https://github.com/PacoPortillo/DAM_PSP_Tarea02_La-Cena-de-los-Filosofos
+
