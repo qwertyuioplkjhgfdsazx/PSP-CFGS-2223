@@ -20,51 +20,47 @@ imgcover:/media/DADES/NextCloud/DOCENCIA/PSP_2223/PSP-CFGS-2223/UD01/assets/cove
 2. Create a Java program called ReadName.java that receives a name from the main() arguments and displays it on the screen. It uses System.exit(1) for a correct termination of the program and System.exit(-1) in case the correct arguments were not entered in main().
 
    Next, create a program similar to the following:
-
-
    ```java
    /*
-    * To change this license header, choose License Headers in Project Properties.
-    * To change this template file, choose Tools | Templates
-    * and open the template in the editor.
-    */
+   * To change this license header, choose License Headers in Project Properties.
+   * To change this template file, choose Tools | Templates
+   * and open the template in the editor.
+   */
    package UD01;
-   
    import java.io.*;
    
-   /**
-    *
-    * @author David Martínez (wwww.martinezpenya.es|iesmre.com)
-    */
-   public class Test {
+    /**
+     *
+     * @author David Martínez (wwww.martinezpenya.es|iesmre.com)
+     */
+    public class Test {
    
-       public static void main(String[] args) throws IOException {
-           //create File Object where the example is located
-           File folder = new File(".\\bin");
-           //process to execute
-           ProcessBuilder pb = new ProcessBuilder("java", "example");
-           //move to that folder
-           pb.directory(folder);
-           System.out.format("Working folder: %s%n", pb.directory());
-           //run the process
-           Process p = pb.start();
-           //get the output of the process
-           try {
-               InputStream is = p.getInputStream();
-               int c;
-               while ((c = is.read()) != -1) {
-                   System.out.println((char) c);
-               }
-               is.close();
-           } catch (Exception e) {
-               e.printStackTrace();
-           }
-       }
-   }
-   
+        public static void main(String[] args) throws IOException {
+            //create File Object where the example is located
+            File folder = new File(".\\bin");
+            //process to execute
+            ProcessBuilder pb = new ProcessBuilder("java", "example");
+            //move to that folder
+            pb.directory(folder);
+            System.out.format("Working folder: %s%n", pb.directory());
+            //run the process
+            Process p = pb.start();
+            //get the output of the process
+            try {
+                InputStream is = p.getInputStream();
+                int c;
+                while ((c = is.read()) != -1) {
+                    System.out.println((char) c);
+                }
+                is.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
    ```
 
-  to execute ReadName.java. It uses the waitFor() method to check the output value of the running process. It tests the execution of the program giving value to the arguments of main() and without giving it value. What does waitFor() return in one case and in another?
+  to execute ReadName.java. It uses the `waitFor()` method to check the output value of the running process. It tests the execution of the program giving value to the arguments of `main()` and without giving it value. What does `waitFor()` return in one case and in another?
 
 
 3. Create a project called `ProcessKillNotepad` with a program that launches the notepad or any similar text editor from your operating system. Then, the program will wait 10 seconds for the subprocess to finish and, after that period, it will be destroyed. To sleep 10 seconds, use this instruction:
