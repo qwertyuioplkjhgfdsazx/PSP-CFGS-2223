@@ -129,7 +129,7 @@ In summary:
 
 - **Parallel processing**. It is the one in which the threads (threads) of a process are executed simultaneously in the various processors/cores.
 
-  > Walking and eating gum is parallelism
+  > Walking and chewing gum is parallelism
 
 In conclusion, concurrent processing is the responsibility of the operating system while parallel processing is the responsibility shared between the operating system and the program (Programmer).
 
