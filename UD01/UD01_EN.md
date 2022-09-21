@@ -278,7 +278,7 @@ Thus, the reading processes can remain waiting until they are notified that ther
 Other problems you can think about:
 
 - [The dinner of the philosophers](https://es.wikipedia.org/wiki/Problema_de_la_cena_de_los_fil%C3%B3sofos)
-- [The sleeping barber](https://en.wikipedia.org/wiki/Problem_of_the_sleeping_barber)
+- [The sleeping barber](https://es.wikipedia.org/wiki/Problema_del_barbero_durmiente)
 
 ## Some solutions to these problems
 
@@ -287,7 +287,6 @@ Throughout history, specific solutions have been proposed for the above problems
 ### Semaphore
 
 Let's imagine a single lane road that must go through a tunnel. There is a traffic light at each end of the tunnel that tells us when we can go through and when we can't. If the traffic light is green, the car will pass immediately and the traffic light will turn red until you exit. This simile introduces us to the actual definition of a **semaphore**.
-
 
 <img src="/assets/Semaforo.png" alt="img" style="zoom:33%;" />
 
@@ -412,6 +411,10 @@ A monitor consists of 4 elements:
 In the field of programming, a **monitor** is an object in which all its methods are implemented under mutual exclusion. In the `Java` language they are objects of a class in which all its public methods are `synchronized`.
 
 A **semaphore** is an object that allows access to a share to be synchronized, and a monitor is an access interface to the share. They are the encapsulation of an object, thus making an object more secure, robust and scalable.
+
+### Monitor vs Semaphore
+
+https://stackoverflow.com/questions/7335950/semaphore-vs-monitors-whats-the-difference
 
 # Processes
 
