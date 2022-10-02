@@ -16,6 +16,8 @@
  */
 package UD01;
 
+import java.io.IOException;
+
 /**
  *
  * @author David Martínez (wwww.martinezpenya.es|www.ieseduardoprimo.es)
@@ -23,12 +25,30 @@ package UD01;
 public class Ejemplo01 {
 
     public static void main(String[] args) {
-        ProcessBuilder pBuilder = new ProcessBuilder("Notepad.exe", "datos.txt");
-        java.util.Map<String, String> env = pBuilder.environment();
-        System.out.println(env.toString());
-        System.out.println("Número de procesadores:" + env.get("NUMBER_OF_PROCESSORS"));
         
-        int processors = Runtime.getRuntime().availableProcessors();
-        System.out.println("CPU cores: " + processors);
+        try {
+            
+            Runtime.getRuntime().exec("kate notes.txt"); //kubuntu
+            //Runtime.getRuntime().exec("notepad.exe notes.txt"); //windows
+            
+            String[] procesInfo = {"kate","notes.txt"};//kubuntu
+            //String[] procesInfo = {"Notepad.exe","notes.txt"};//windows
+            Process p = Runtime.getRuntime().exec(procesInfo);
+            int returnCode = p.waitFor();
+            System.out.println("Fin de la ejecución:" + returnCode);
+            
+            ProcessBuilder pBuilder = new ProcessBuilder("kate");//kubuntu
+            //ProcessBuilder pBuilder = new ProcessBuilder("Notepad.exe");//windows
+            for (int i=0; i<10;i++){
+                pBuilder.start();
+                Thread.sleep(1000); //Espera 1000 milisegundos (1 segundo)
+            }
+            
+            int processors = Runtime.getRuntime().availableProcessors();
+            System.out.println("CPU cores: " + processors);
+            
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
     }
 }
