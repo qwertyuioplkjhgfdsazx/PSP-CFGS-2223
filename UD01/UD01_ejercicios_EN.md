@@ -21,11 +21,6 @@ imgcover:/media/DADES/NextCloud/DOCENCIA/PSP_2223/PSP-CFGS-2223/UD01/assets/cove
 
    Next, create a program similar to the following:
    ```java
-   /*
-   * To change this license header, choose License Headers in Project Properties.
-   * To change this template file, choose Tools | Templates
-   * and open the template in the editor.
-   */
    package UD01;
    import java.io.*;
    

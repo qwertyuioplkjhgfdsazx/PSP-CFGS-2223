@@ -586,7 +586,8 @@ In the following code, notepad is being executed, indicating that  `notas.txt ` 
 
 
 ```java
-Runtime.getRuntime().exec("Notepad.exe notes.txt");
+Runtime.getRuntime().exec("kate notes.txt"); //kubuntu
+Runtime.getRuntime().exec("notepad.exe notes.txt"); //windows
 ```
 
 Alternatively, the process can be created by providing an array of String objects with the program name and parameters.
@@ -609,7 +610,7 @@ Si se necesita esperar a que el proceso ejecutado termine y conocer el estado en
 
 
 ```java
-String[] procesInfo = ("Notepad.exe","notes.txt");
+String[] procesInfo = {"Notepad.exe","notes.txt"};
 Process p = Runtime.getRuntime().exec(procesInfo);
 int returnCode = p.waitFor();
 System.out.println("Fin de la ejecución:" + returnCode);
@@ -653,7 +654,8 @@ The execution of the process is carried out from the invocation of the `start` m
 
 
 ```java
-new ProcessBuilder("Notepad.exe").start();
+new ProcessBuilder("Notepad.exe").start();//windows
+
 ```
 
 The `ProcessBuilder` constructor accepts parameters that will be passed to the process being created.
@@ -679,6 +681,7 @@ The `start` method allows you to create multiple threads from a single instance 
 ProcessBuilder pBuilder = new ProcessBuilder("Notepad.exe");
 for (int i=0; i<10;i++){
 	pBuilder.start();
+    Thread.sleep(1000); //Espera 1000 milisegundos (1 segundo)
 }
 ```
 
@@ -728,7 +731,7 @@ Look at [Example02](##Example02)
 
 ## Differences between Runtime and ProcessBuilder
 
-You may be wondering... why are there two ways to do the same thing? Well, the `Runtime` class belongs to core Java since its first version, while `ProcessBuilder` was added in Java 5. With `ProcessBuilder` you can add environment variables and change the current working directory for the process to start . Such features are not available for the `Runtime` class. Also, there are some subtle differences between these two classes. For example, the `Runtime` class allows us to run a command by passing the entire string as an argument, without splitting it into separate arguments in an array:
+You may be wondering... why are there two ways to do the same thing? Well, the `Runtime` class belongs to core Java since its first version, while `ProcessBuilder` was added in Java 5. With `ProcessBuilder` you can add environment variables and change the current working directory for the process to start. Such features are not available for the `Runtime` class. Also, there are some subtle differences between these two classes. For example, the `Runtime` class allows us to run a command by passing the entire string as an argument, without splitting it into separate arguments in an array:
 
 
 ```java
