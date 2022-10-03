@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package UD01;
 
 import java.io.*;
@@ -24,15 +19,20 @@ public class Ejemplo03 {
         //run the process
         Process p = pb.start();
         //get the output of the process
-        try {
-            InputStream is = p.getInputStream();
-            int c;
-            while ((c = is.read()) != -1) {
-                System.out.print((char) c);
-            }
-            is.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        String line;
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()))){
+            while ((line = br.readLine()) != null) {
+            System.out.println(line);
+        }
+//        try {
+//            InputStream is = p.getInputStream();
+//            int c;
+//            while ((c = is.read()) != -1) {
+//                System.out.print((char) c);
+//            }
+//            is.close();           
+//        } catch (Exception e) {
+//            e.printStackTrace();
         }
     }
 }
