@@ -805,8 +805,10 @@ Soy el proceso ABUELO: 10744, Mi HIJO: 10745 terminó.
 
 This example creates a process to call the `ls` command (expected to run on Linux or Mac OS X), with the `-l` option to get a detailed list of files and folders in the current directory. It then captures the output and prints it to the console (or stdout).
 
-
 ```java
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 public class Ejemplo02 {
 
     public static void main(String[] args) {
@@ -830,19 +832,64 @@ public class Ejemplo02 {
 }
 ```
 
+Sample of execution:
+
+```sh
+Process output:
+total 17
+drwxrwxrwx 1 root root 4096 d’ag.    19 12:15 build
+-rwxrwxrwx 1 root root 3521 d’ag.    15 20:12 build.xml
+drwxrwxrwx 1 root root    0 d’ag.    19 12:15 dist
+-rwxrwxrwx 1 root root 1243 de jul.  27 18:47 Ejemplo01.c
+-rwxrwxrwx 1 root root   82 de jul.  27 18:29 manifest.mf
+drwxrwxrwx 1 root root 4096 d’ag.    17 11:12 nbproject
+drwxrwxrwx 1 root root    0 d’ag.    11 10:47 src
+drwxrwxrwx 1 root root    0 d’ag.     4 09:42 test
+```
+
+## Example03
+
+This example creates a process to call the `java` command (expected to run on Linux or Mac OS X), with the `--version`option to get info about current `java` version. Changes current folder running and shows it along with other information.
+
+
+```java
+import java.io.*;
+
+public class Ejemplo03 {
+
+    public static void main(String[] args) throws IOException {
+        //create File Object where the example is located
+        File folder = new File("/usr/bin");
+        //process to execute
+        ProcessBuilder pb = new ProcessBuilder("java", "--version");
+        //move to that folder
+        pb.directory(folder);
+        System.out.format("Working folder: %s%n", pb.directory());
+        //run the process
+        Process p = pb.start();
+        //get the output of the process
+        try {
+            InputStream is = p.getInputStream();
+            int c;
+            while ((c = is.read()) != -1) {
+                System.out.print((char) c);
+            }
+            is.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
 Example output of its execution:
 
 
 ```sh
-Process output:
-total 13
-drwxrwxrwx 1 root root    0 de jul.  29 18:44 build
--rwxrwxrwx 1 root root 3521 de jul.  27 18:29 build.xml
--rwxrwxrwx 1 root root 1243 de jul.  27 18:47 Ejemplo01.c
--rwxrwxrwx 1 root root   82 de jul.  27 18:29 manifest.mf
-drwxrwxrwx 1 root root 4096 de jul.  27 18:29 nbproject
-drwxrwxrwx 1 root root    0 de jul.  27 18:31 src
-drwxrwxrwx 1 root root    0 de jul.  29 18:43 test
+Working folder: /usr/bin
+openjdk 17.0.4 2022-07-19
+OpenJDK Runtime Environment (build 17.0.4+8-Ubuntu-120.04)
+OpenJDK 64-Bit Server VM (build 17.0.4+8-Ubuntu-120.04, mixed mode, sharing)
 ```
 
 # Information sources
