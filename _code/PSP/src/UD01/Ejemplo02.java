@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 David Martínez (wwww.martinezpenya.es|www.ieseduardoprimo.es)
+ * Copyright (C) 2022 David Martínez (wwww.martinezpenya.es)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ import java.io.InputStreamReader;
 
 /**
  *
- * @author David Martínez (wwww.martinezpenya.es|www.ieseduardoprimo.es)
+ * @author David Martínez (wwww.martinezpenya.es)
  */
 public class Ejemplo02 {
 

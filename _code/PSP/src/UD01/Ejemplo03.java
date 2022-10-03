@@ -11,13 +11,13 @@ import java.io.*;
  *
  * @author David Martínez (wwww.martinezpenya.es|iesmre.com)
  */
-public class Test {
+public class Ejemplo03 {
 
     public static void main(String[] args) throws IOException {
         //create File Object where the example is located
-        File folder = new File(".\\bin");
+        File folder = new File("/usr/bin");
         //process to execute
-        ProcessBuilder pb = new ProcessBuilder("java", "example");
+        ProcessBuilder pb = new ProcessBuilder("java", "--version");
         //move to that folder
         pb.directory(folder);
         System.out.format("Working folder: %s%n", pb.directory());
@@ -28,7 +28,7 @@ public class Test {
             InputStream is = p.getInputStream();
             int c;
             while ((c = is.read()) != -1) {
-                System.out.println((char) c);
+                System.out.print((char) c);
             }
             is.close();
         } catch (Exception e) {
