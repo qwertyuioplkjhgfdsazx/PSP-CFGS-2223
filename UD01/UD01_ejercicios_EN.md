@@ -17,9 +17,16 @@ imgcover:/media/DADES/NextCloud/DOCENCIA/PSP_2223/PSP-CFGS-2223/UD01/assets/cove
 
 1. Create a project called `ProcessListPNG` with a program that asks the user to introduce a path (for instance, `/myfolder/photos`), and then launches a process that prints a list of all PNG images found in this path. Try to do it recursively (either with a command from the operating system or with your own script).
 
-2. Create a Java program called ReadName.java that receives a name from the main() arguments and displays it on the screen. It uses System.exit(1) for a correct termination of the program and System.exit(-1) in case the correct arguments were not entered in main().
+2. Create a Java program that uses the `waitFor()` method to check the output value of the running process. It tests the execution of the program Notepad (or similar) two times. First time the user will close the windows normally so Notepad return 0 and our program says OK. And the second time the user will kill Notepad from Operating System Task manager and out program would say ERROR.
 
-   Next, create a program similar to the following:
+   ```sh
+   OK(0)
+   ERROR(1)
+   ```
+
+   ~~Create a Java program called ReadName.java that receives a name from the main() arguments and displays it on the screen. It uses System.exit(1) for a correct termination of the program and System.exit(-1) in case the correct arguments were not entered in main().~~
+
+   ~~Next, create a program similar to the following:~~
    ```java
    package UD01;
    import java.io.*;
@@ -55,7 +62,7 @@ imgcover:/media/DADES/NextCloud/DOCENCIA/PSP_2223/PSP-CFGS-2223/UD01/assets/cove
     }
    ```
 
-  to execute ReadName.java. It uses the `waitFor()` method to check the output value of the running process. It tests the execution of the program giving value to the arguments of `main()` and without giving it value. What does `waitFor()` return in one case and in another?
+  ~~to execute ReadName.java. It uses the `waitFor()` method to check the output value of the running process. It tests the execution of the program giving value to the arguments of `main()` and without giving it value. What does `waitFor()` return in one case and in another?~~
 
 
 3. Create a project called `ProcessKillNotepad` with a program that launches the notepad or any similar text editor from your operating system. Then, the program will wait 10 seconds for the subprocess to finish and, after that period, it will be destroyed. To sleep 10 seconds, use this instruction:

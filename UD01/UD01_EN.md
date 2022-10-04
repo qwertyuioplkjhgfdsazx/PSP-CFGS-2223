@@ -806,6 +806,8 @@ Soy el proceso ABUELO: 10744, Mi HIJO: 10745 terminó.
 This example creates a process to call the `ls` command (expected to run on Linux or Mac OS X), with the `-l` option to get a detailed list of files and folders in the current directory. It then captures the output and prints it to the console (or stdout).
 
 ```java
+package UD01;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
@@ -853,6 +855,8 @@ This example creates a process to call the `java` command (expected to run on Li
 
 
 ```java
+package UD01;
+
 import java.io.*;
 
 public class Ejemplo03 {
@@ -868,18 +872,24 @@ public class Ejemplo03 {
         //run the process
         Process p = pb.start();
         //get the output of the process
-        try {
-            InputStream is = p.getInputStream();
-            int c;
-            while ((c = is.read()) != -1) {
-                System.out.print((char) c);
-            }
-            is.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        String line;
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()))){
+            while ((line = br.readLine()) != null) {
+            System.out.println(line);
+        }
+//        try {
+//            InputStream is = p.getInputStream();
+//            int c;
+//            while ((c = is.read()) != -1) {
+//                System.out.print((char) c);
+//            }
+//            is.close();           
+//        } catch (Exception e) {
+//            e.printStackTrace();
         }
     }
 }
+
 ```
 
 Example output of its execution:
