@@ -37,23 +37,23 @@ En cambio, en un programa multihilo, algunas de las sentencias se ejecutan simul
 
 A continuación, se citan algunas de las características que tienen los hilos:
 
-- Dependencia del proceso. No se pueden ejecutar independientemente. Siempre se tienen que ejecutar dentro del contexto de un proceso.
-- A Ligereza. Al ejecutarse dentro del contexto de un proceso, no requiere generar procesos nuevos, por lo que son óptimos desde el punto de vista del uso de recursos. Se pueden generar gran cantidad de hilos sin que provoquen pérdidas de memoria.
-- Compartición de recursos. Dentro del mismo proceso, los hilos comparten espacio de memoria. Esto implica que pueden sufrir colisiones en los accesos a las variables provocando errores de concurrencia.
-- Paralelismo. Aprovechan los núcleos del procesador generando un paralelismo real, siempre dentro de las capacidades del procesador.
-- Concurrencia. Permiten atender de manera concurrente múltiples peticiones. Esto es especialmente importante en servidores web y de bases de datos, por ejemplo.
+- **Dependencia del proceso**. No se pueden ejecutar independientemente. Siempre se tienen que ejecutar dentro del contexto de un proceso.
+- **Ligereza**. Al ejecutarse dentro del contexto de un proceso, no requiere generar procesos nuevos, por lo que son óptimos desde el punto de vista del uso de recursos. Se pueden generar gran cantidad de hilos sin que provoquen pérdidas de memoria.
+- **Compartición de recursos**. Dentro del mismo proceso, los hilos comparten espacio de memoria. Esto implica que pueden sufrir colisiones en los accesos a las variables provocando errores de concurrencia.
+- **Paralelismo**. Aprovechan los núcleos del procesador generando un paralelismo real, siempre dentro de las capacidades del procesador.
+- **Concurrencia**. Permiten atender de manera concurrente múltiples peticiones. Esto es especialmente importante en servidores web y de bases de datos, por ejemplo.
 
 Para ilustrar de manera más precisa cómo se comporta un programa de un único hilo frente a los programas de múltiples hilos se puede establecer la siguiente analogía. 
 
-El camarero de una cafetería recibe a un cliente que le pide un café, una tostada y una tortilla francesa. Si el camarero trabaja como un proceso de un único hilo pondrá la cafetera a preparar el café, esperará a que termine para poner el pan a tostar y no pedirá la tortilla a la cocina hasta que el pan no esté tostado. Probablemente, cuando todo esté dispuesto para servir, el café y la tostada estarán fríos y el cliente aburrido de esperar.
+*El camarero de una cafetería recibe a un cliente que le pide un café, una tostada y una tortilla francesa. Si el camarero trabaja como un proceso de un único hilo pondrá la cafetera a preparar el café, esperará a que termine para poner el pan a tostar y no pedirá la tortilla a la cocina hasta que el pan no esté tostado. Probablemente, cuando todo esté dispuesto para servir, el café y la tostada estarán fríos y el cliente aburrido de esperar.*
 
-Los camareros (la gran mayoría de ellos) suelen trabajar como procesos multihilo: ponen la cafetera a preparar el café, el pan a tostar y piden a la cocina los platos sin esperar a que cada una de las demás tareas esté terminada. Dado que cada una de ellas consume diferentes recursos, no es necesario hacerlo. Transcurrido el tiempo que tarda en estar lista la tarea más lenta, el cliente estará atendido.
+*Los camareros (la gran mayoría de ellos) suelen trabajar como procesos multihilo: ponen la cafetera a preparar el café, el pan a tostar y piden a la cocina los platos sin esperar a que cada una de las demás tareas esté terminada. Dado que cada una de ellas consume diferentes recursos, no es necesario hacerlo. Transcurrido el tiempo que tarda en estar lista la tarea más lenta, el cliente estará atendido.*
 
-Siguiendo con la analogía, al igual que pasa en los ordenadores, los recursos de una cafetería son limitados, por lo que hay una restricción física que impide que se hagan más tareas simultáneamente de las que permiten los recursos. Si solo hay una tostadora con capacidad para dos rebanadas de pan no se podrán tostar más de dicho número en un mismo instante de tiempo.
+*Siguiendo con la analogía, al igual que pasa en los ordenadores, los recursos de una cafetería son limitados, por lo que hay una restricción física que impide que se hagan más tareas simultáneamente de las que permiten los recursos. Si solo hay una tostadora con capacidad para dos rebanadas de pan no se podrán tostar más de dicho número en un mismo instante de tiempo.*
 
 La programación que permite realizar este tipo de sistemas se llama multihilo, concurrente o asíncrona.
 
-## Programación secuencial o de Único hilo
+## Programación secuencial o de único hilo
 
 El siguiente ejemplo programado en Java ilustra cómo se comporta un programa que se ejecuta en un único hilo, así como las consecuencias que esto implica. El programa está compuesto por una única clase (representa un ratón) compuesta por dos atributos: el nombre y el tiempo en segundos que tarda en comer. En el método main se instancian varios objetos (ratones) y se invoca al método comer de cada uno de ellos. Este método muestra un texto por pantalla cuando comienza, realiza una pausa de la duración en se- gundos (con el método sleep de la clase Thread) que indica el parámetro tiempoAlimentacion y, finalmente, muestra otro texto por pantalla cuando finaliza.
 
@@ -67,13 +67,13 @@ Consulta el [Ejemplo02](#Ejemplo02)
 
 En Java existen dos formas para la creación de hilos:
 
-- Implementando la interface java.lang.Runnable.
-- Heredando de la clase java.lang.Thread.
+- Implementando la interface `java.lang.Runnable`.
+- Heredando de la clase `java.lang.Thread`.
 
-La implementación de la interface Runnable obliga a programar el método sin argumentos run.
+La implementación de la interface `Runnable` obliga a programar el método sin argumentos `run`.
 
 ```java
-public class HiloViaInterface implements Runnable {
+public class ThreadViaInterface implements Runnable {
 	@override
 	public void run() {
     }
@@ -83,33 +83,33 @@ public class HiloViaInterface implements Runnable {
 Heredando de la clase Thread esto no es obligatorio porque dicha clase ya es una implementación de la interface Runnable.
 
 ```java
-public class HiloViaHerencia extends Thread {
+public class ThreadViaInheritance extends Thread {
 }
 ```
 
-No obstante, crear un hilo heredando de Thread «necesita» la implementación del método sin argumentos `run`, ya que de lo contrario la clase no tendrá un comportamiento multihilo.
+No obstante, crear un hilo heredando de `Thread` «necesita» la implementación del método sin argumentos `run`, ya que de lo contrario la clase no tendrá un comportamiento multihilo.
 
 Consulta el [Ejemplo3](#Ejemplo03)
 
->Es habitual que, en las primeras tomas de contacto con los hilos en Java, los programadores intenten ejecutar el método run en lugar de ejecutar el método start. Desde el punto de vista de la compilación no habrá problema: el programa se compilará sin errores. 
+>Es habitual que, en las primeras tomas de contacto con los hilos en Java, los programadores intenten ejecutar el método `run` en lugar de ejecutar el método `start`. Desde el punto de vista de la compilación no habrá problema: el programa se compilará sin errores. 
 >
->Desde la perspectiva de la programación concurrente el resultado no será el adecuado, ya que los hilos se ejecutarán uno detrás de otro, de manera secuencial, no obteniendo ninguna mejora frente a la programación secuencial convencional.
+>**Desde la perspectiva de la programación concurrente el resultado no será el adecuado, ya que los hilos se ejecutarán uno detrás de otro, de manera secuencial, no obteniendo ninguna mejora frente a la programación secuencial convencional.**
 
-La creación de threads mediante la implementación de la interface Runnable tiene una ventaja clara sobre la herencia de la clase Thread: al ser Java un lenguaje que no admite herencia múltiple, heredar de dicha clase impide otro tipo de herencias, limitando las posibilidades de diseño del software.
+La creación de threads mediante la implementación de la interface `Runnable` tiene una ventaja clara sobre la herencia de la clase `Thread`: al ser Java un lenguaje que no admite herencia múltiple, heredar de dicha clase impide otro tipo de herencias, limitando las posibilidades de diseño del software.
 
-Por otra parte, a través de la implementación mediante la interface Runnable se pueden lanzar muchos hilos de ejecución sobre un único objeto, frente a la herencia de Thread que creará un objeto por cada hilo.
+Por otra parte, a través de la implementación mediante la interface `Runnable` se pueden lanzar muchos hilos de ejecución sobre un único objeto, frente a la herencia de `Thread` que creará un objeto por cada hilo.
 
 En el siguiente ejemplo se implementa un hilo mediante la interface `Runnable` para crear múltiples hilos a partir de un único objeto. En el hilo, un atributo de instancia llamado `alimentoConsumido` se incrementa en 1 durante la ejecución del método `comer`, invocado en el método `run`. Se puede observar en el método `main` cómo se crea una única instancia de la clase `RatonSimple` y se crean cuatro hilos que la ejecutan.
 
 Consulta el [Ejemplo04](#Ejemplo04) y [Ejemplo04bis](#Ejemplo04bis)
 
->Debido a la naturaleza de la programación multihilo, las salidas de las ejecuciones de los programas de ejemplo pueden no coincidir con las presentadas en el libro. De hecho, en distintas ejecuciones en la misma máquina los resultados pueden variar.
+>Debido a la naturaleza de la programación multihilo, las salidas de las ejecuciones de los programas de ejemplo pueden no coincidir con las presentadas en los apuntes. De hecho, en distintas ejecuciones en la misma máquina los resultados pueden variar.
 
 ## Estados de los hilos
 
-Durante el ciclo de vida de los hilos, estos pasan por diversos estados. En Java, están recogidos dentro de la enumeración State contenida dentro de la clase java.lang.Thread. 
+Durante el ciclo de vida de los hilos, estos pasan por diversos estados. En Java, están recogidos dentro de la enumeración `State` contenida dentro de la clase `java.lang.Thread`. 
 
-El estado de un hilo se obtiene mediante el método getState() de la clase Thread, que devolverá algunos de los valores posibles recogidos en la enumeración indicada anteriormente.
+El estado de un hilo se obtiene mediante el método `getState()` de la clase `Thread`, que devolverá algunos de los valores posibles recogidos en la enumeración indicada anteriormente.
 
 Los estados de un thread son los que se muestran en la siguiente tabla:
 
@@ -128,7 +128,7 @@ Consulta el [Ejemplo05](#Ejemplo05)
 
 > Todos los hilos pasan por los estados **NEW**, **RUNNABLE** y **TERMINATED**. El resto de los estados están condicionados a circunstancias propias de la ejecución.
 
-## Introducción a los problemas deconcurrencia
+## Introducción a los problemas de concurrencia
 
 En programación concurrente las dificultades aparecen cuando los distintos hilos acceden a un recurso compartido y limitado. Si en el ejemplo de los ratones (el físico, no el programático), estos comiesen a través de un dispositivo al que solo pudiesen acceder de uno en uno, la concurrencia sería imposible. En el ejemplo programático el problema es el mismo, pero no existe la restricción física, por lo que nada impide que los hilos accedan al recurso compartido y es en ese momento donde aparecerán los problemas.
 
@@ -174,7 +174,7 @@ Es una interface para la definición de sistemas multihilo. Permite ejecutar tar
 | `ExecutorService`           | Interface   | Subinterface de Executor, permite gestionar tareas asíncronas |
 | `SchedulledExecutorService` | Interface   | Permite la planificación de la ejecución de tareas asíncronas. |
 | `Executors`                 | Clase       | Fábrica de objetos `Executor`, `ExecutorServices`, `ThreadFactory` y `Callable`. |
-| `TimeUnit`                  | Enumeración | Proporcionarepresentaciones de unidades de tiempo con distinta granularidad, desde días hasta nanosegundos. |
+| `TimeUnit`                  | Enumeración | Proporciona representaciones de unidades de tiempo con distinta granularidad, desde días hasta nanosegundos. |
 
 Consulta el [Ejemplo07](#Ejemplo07)
 
@@ -269,7 +269,7 @@ En resumen, la relación entre estas tres interfaces es la siguiente: `ExecutorS
 
 Consulta el [Ejemplo12](#Ejemplo12)
 
-> En programación, casi nunca una alternativa es mejor que otra siempre. Las interfaces `Runnable` y `Callable` son absolutamente válidas y, dependiendo de la situación, una u otra serán la mejor alternativa.
+> En programación, casi nunca una alternativa es siempre mejor que otra. Las interfaces `Runnable` y `Callable` son absolutamente válidas y, dependiendo de la situación, una u otra serán la mejor alternativa.
 
 # Programación asíncrona
 
@@ -341,7 +341,7 @@ Si se desea que varios hilos compartan información existen varias alternativas:
 
 - **Utilizar atributos estáticos**. Los atributos estáticos son comunes a todas las instancias, por los que independientemente de la manera de construir los hilos la información es compartida.
 - **Utilizando referencias a objetos comunes** accesibles desde todos los hilos. En el [Ejemplo17](#Ejemplo17) se muestra un ejemplo de uso de una instancia de un objeto común a varios hilos que se modifican en cada uno de ellos.
-- **Utilizando atributos no estáticos** de la instancia de una clase que implemente `Runnable` y construyendo los hilos a partir de dicha instancia. El [Ejemplo18](#Ejemplo18) muestra un ejemplo.
+- **Utilizando atributos no estáticos** de la instancia de una clase que implemente `RunnableSharing` y construyendo los hilos a partir de dicha instancia. El [Ejemplo18](#Ejemplo18) muestra un ejemplo.
 
 Existen otras formas de compartir información, ya sea a través de ficheros, bases de datos o servicios de red o de internet. En todos los casos hay que tener en cuenta que la información compartida por varios hilos para lectura y escritura es una potencial fuente de errores de concurrencia.
 
@@ -384,13 +384,13 @@ La existencia de dependencias de cualquier tipo impide la programación concurre
 
 ### Condiciones de Bernstein
 
-De manera formal, el cumplimiento de las condiciones de Bernstein determina si dos segmentos de código pueden ser ejecutados en paralelo. Dados dos segmentos de código S~1~, y S~2~ se determina que son independientes y pueden ser ejecutados en paralelo si:
+De manera formal, el cumplimiento de las condiciones de **Bernstein** determina si dos segmentos de código pueden ser ejecutados en paralelo. Dados dos segmentos de código S~1~, y S~2~ se determina que son independientes y pueden ser ejecutados en paralelo si:
 
 - Las entradas de S~2~ son distintas de las salidas de S~1~. De no ser así se produce lo que se conoce como **dependencia de flujo**.
 - Las entradas de S~1~ son distintas de las salidas de S~2~. De no ser así se produce lo que se conoce como **antidependencia**.
 - Las salidas de S~1~ son distintas de las salidas de S~2~. De no ser así se produce lo que se conoce como **dependencia de salida**.
 
-Si dos segmentos de código cumplen con las condiciones de Bernstein su ejecución se puede paralelizar.
+Si dos segmentos de código cumplen con las condiciones de **Bernstein** su ejecución se puede paralelizar.
 
 ### Acción y acceso atómicos
 
@@ -462,9 +462,9 @@ Las variables `volatile` serían apropiadas para sistemas en los que un único h
 
 ## Sincronización básica: `wait`, `notify` y `notifyAll`
 
-Los métodos wait, notity y notifyAll son propios de la clase Object, por lo que todas las clases en Java disponen de ellos.
+Los métodos `wait`, `notity` y `notifyAll` son propios de la clase `Object`, por lo que todas las clases en Java disponen de ellos.
 
-Todos estos métodos se tienen que invocar desde segmentos de código de un hilo que disponga de un monitor, como, por ejemplo, un bloque o un segmento sincronizados, y obliga a capturar una excepción del tipo InterruptedException.
+Todos estos métodos se tienen que invocar desde segmentos de código de un hilo que disponga de un monitor, como, por ejemplo, un bloque o un segmento sincronizados, y obliga a capturar una excepción del tipo `InterruptedException`.
 
 El método `wait` detiene la ejecución del hilo y los métodos `notify` y `notifiyAll` producen la reactivación de los hilos detenidos. El método `notify` hace continuar a un único segmento al azar de los que están detenidos con `wait` mientras que `notifyAll` hace continuar a todos los segmentos detenidos con `wait`.
 
@@ -477,27 +477,27 @@ El método `join` permite indicar a un hilo que debe suspender su ejecución has
 El [Ejemplo21](#Ejemplo21) permite ilustrar el funcionamiento de este método. En él, dos hilos ejecutan un bucle con 3 iteraciones que en ausencia de mecanismos de sincronización generarían una salida similar a esta:
 
 ```sh
-Hilo 1. Iteración 0
-Hilo 2. Iteración 0
-Hilo 1. Iteración 1
-Hilo 2. Iteración 1
-Hilo 1. Iteración 2
-Hilo 2. Iteración 2
+Thread 1. Interaction 0
+Thread 2. Interaction 0
+Thread 1. Interaction 1
+Thread 2. Interaction 1
+Thread 2. Interaction 2
+Thread 1. Interaction 2
 ```
 
 Dado que cada hilo tiene la misma prioridad y el mismo código, escribirán simultáneamente la salida programada.
 
-En cambio, en el [Ejemplo22](#Ejemplo22), después de arrancar los dos hilos, se le indica al hilo hilo2 que debe quedar suspendido hasta que termine la ejecución de hilo1. Para ello es necesario que hilo2 tenga una referencia a hilo1 (hiloReferencia en el ejemplo) para invocar al método join.
+En cambio, en el [Ejemplo22](#Ejemplo22), después de arrancar los dos hilos, se le indica al hilo `hilo2` que debe quedar suspendido hasta que termine la ejecución de `hilo1`. Para ello es necesario que `hilo2` tenga una referencia a `hilo1` (`referenceThread` en el ejemplo) para invocar al método `join`.
 
 El resultado obtenido en este caso es el siguiente:
 
 ```sh
-Hilo 1. Iteración 0
-Hilo 1. Iteración 1
-Hilo 1. Iteración 2
-Hilo 2. Iteración 0
-Hilo 2. Iteración 1
-Hilo 2. Iteración 2
+Thread 1. Interaction 0
+Thread 1. Interaction 1
+Thread 1. Interaction 2
+Thread 2. Interaction 0
+Thread 2. Interaction 1
+Thread 2. Interaction 2
 ```
 
 ## Sincronización básica: estructuras de datos resistentes a hilos 
@@ -513,7 +513,7 @@ Uno de los mecanismos proporcionados por Java para sincronizar segmentos de cód
 A nivel de método, el uso es tan sencillo como incluir la palabra en la declaración del método:
 
 ```java
-public synchronized void calcular ()
+public synchronized void calculate ()
 ```
 
 El efecto de esta declaración es que, para una instancia de objeto, solo un hilo puede estar ejecutando el método sincronizado en un momento dado.
@@ -521,18 +521,18 @@ El efecto de esta declaración es que, para una instancia de objeto, solo un hil
 Por su parte, a nivel de segmento de código, la sincronización se efectúa delimitando un bloque de sentencias haciendo una declaración sincronizada. El siguiente código muestra una declaración sincronizada.
 
 ```java
-public void calcular()(
-	//Sentencias no sincronizadas
+public void calculate()(
+	//Sentences not synchronized
 	synchronized (objetoBloqueo) {
-		//Bloque de sentencias sincronizadas
+		//Block of unsyncrhonized sentences
 	}
-	//Sentencias no sincronizadas
+	//Sentences not synchronized
 }
 ```
 
-Este sistema utiliza un concepto conocido como bloqueo intrínseco, bloqueo de monitor o, simplemente, monitor. El monitor es un elemento asociado a una instancia que hace la función de candado. Cuando se ejecuta un método o bloque sincronizado utilizando un determinado monitor, este se bloquea y no puede utilizarse hasta que no queda liberado, impidiendo ejecutar un código que utilice el mismo bloqueo.
+Este sistema utiliza un concepto conocido como bloqueo intrínseco, bloqueo de `monitor` o, simplemente, `monitor`. El `monitor` es un elemento asociado a una instancia que hace la función de candado. Cuando se ejecuta un método o bloque sincronizado utilizando un determinado `monitor`, este se bloquea y no puede utilizarse hasta que no queda liberado, impidiendo ejecutar un código que utilice el mismo bloqueo.
 
-Cuando se utilizan métodos sincronizados se usa como monitor el objeto en el que están. Esto supone que cuando un método sincronizado de un objeto se está ejecutando ningún otro método sincronizado de ese objeto se puede ejecutar. La exclusión es, por lo tanto, muy genérica y puede que sea poco eficiente en muchos casos.
+Cuando se utilizan métodos sincronizados se usa como `monitor` el objeto en el que están. Esto supone que cuando un método sincronizado de un objeto se está ejecutando ningún otro método sincronizado de ese objeto se puede ejecutar. La exclusión es, por lo tanto, muy genérica y puede que sea poco eficiente en muchos casos.
 
 Consulta el [Ejemplo23](#Ejemplo23)
 
@@ -542,7 +542,7 @@ Si en cambio utilizasen objetos distintos, el resultado sería el mismo que al n
 
 Consulta el [Ejemplo24](#Ejemplo24)
 
-Por su parte, la sincronización a nivel de segmento necesita también un monitor, pero al no depender del objeto en el que se está ejecutando es más flexible. Utilizando bloques sincronizados no es necesario bloquear todos los segmentos de un objeto como ocurre con los métodos de objeto, sino que se pueden agrupar en monitores distintos.
+Por su parte, la sincronización a nivel de segmento necesita también un `monitor`, pero al no depender del objeto en el que se está ejecutando es más flexible. Utilizando bloques sincronizados no es necesario bloquear todos los segmentos de un objeto como ocurre con los métodos de objeto, sino que se pueden agrupar en monitores distintos.
 
 En el [Ejemplo25](#Ejemplo25) se realiza la sincronización a nivel de bloque, utilizando dos bloqueos distintos en cada uno de ellos. De tal manera que los métodos no son exclusivos entre sí. La sincronización se realiza a nivel de método (cada uno de los métodos solo puede estar siendo ejecutado por un objeto simultáneamente, pero ambos métodos se pueden estar ejecutando por dos objetos distintos).
 
@@ -806,28 +806,27 @@ The mouse Fievel has stopped to feed
 Consumed food: 4
 ```
 
-Cada hilo ha ejecutado el método `run` sobre los datos del mismo objeto. Es decir, se ha ejecutado simultáneamente cuatro veces un bloque de código de un único objeto, compartiendo sus atributos. De esta forma, en la salida se puede apreciar que el valor del atributo `alimentoConsumido` se ha incrementado en 1 por cada hilo. Esto se puede observar porque el valor de `alimentoConsumido` se ha incrementado varias veces durante la ejecución. El hecho de que algunos valores intermedios no aparezcan en la siguiente captura de la salida de la ejecución tiene que ver con la `asincronía` y el alto coste de ejecución que tienen las sentencias que escriben por pantalla.
+Cada hilo ha ejecutado el método `run` sobre los datos del mismo objeto. Es decir, se ha ejecutado simultáneamente cuatro veces un bloque de código de un único objeto, compartiendo sus atributos. De esta forma, en la salida se puede apreciar que el valor del atributo `consumedFood` se ha incrementado en 1 por cada hilo. Esto se puede observar porque el valor de `consumedFood` se ha incrementado varias veces durante la ejecución. El hecho de que algunos valores intermedios no aparezcan en la siguiente captura de la salida de la ejecución tiene que ver con la `asincronía` y el alto coste de ejecución que tienen las sentencias que escriben por pantalla.
 
 Aunque se tratará más adelante en esta misma unidad, es importante insistir en que los diferentes hilos del ejemplo anterior están trabajando sobre una única copia del objeto en memoria, por lo que las variables (los atributos) son compartidas, pudiendo sufrir errores de concurrencia.
 
 ## Ejemplo04bis
 
-Por ejemplo, sustituyendo el método main del ejemplo anterior por el siguiente código, se pueden crear y ejecutar varios threads mediante un bucle for a partir de una única instancia de una clase que implementa la interfaz Runnable. El resultado, con un número bajo de iteraciones (por ejemplo, 4) será habitualmente correcto (el atributo alimentoConsumido alcanzará el mismo valor que el número de iteraciones). Con un número alto (por ejemplo, 1000 iteraciones) el resultado será habitualmente erróneo (el atributo alimentoConsumido alcanzará un valor por debajo del número de iteraciones). Esto se debe a que al compartir todos los hilos los mismos atributos producen errores de concurrencia que deben evitarse mediante técnicas concretas que veremos más adelante.
+Por ejemplo, sustituyendo el método main del ejemplo anterior por el siguiente código, se pueden crear y ejecutar varios threads mediante un bucle for a partir de una única instancia de una clase que implementa la interfaz `Runnable`. El resultado, con un número bajo de iteraciones (por ejemplo, 4) será habitualmente correcto (el atributo `consumedFood` alcanzará el mismo valor que el número de iteraciones). Con un número alto (por ejemplo, 1000 iteraciones) el resultado será habitualmente erróneo (el atributo `consumedFood` alcanzará un valor por debajo del número de iteraciones). Esto se debe a que al compartir todos los hilos los mismos atributos producen errores de concurrencia que deben evitarse mediante técnicas concretas que veremos más adelante.
 
 ```java
 public static void main(String[] args) {
     SimpleMouse fievel = new SimpleMouse("Fievel", 4);
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 1000; i++) {
         new Thread(fievel).start();
     }
 }
 ```
 
-En una ejecución del código anterior, el resultado es 98, cuando debería haber sido 100
-si no hubiese habido problemas de concurrencia
+En una ejecución del código anterior, el resultado es 998, cuando debería haber sido 1000 si no hubiese habido problemas de concurrencia
 
 ```sh
-Consumed food: 98
+Consumed food: 998
 ```
 
 ## Ejemplo05
@@ -1058,7 +1057,7 @@ Aunque de esta última ejecución no está ordenada debido a la concurrencia de 
 
 ## Ejemplo09
 
-En el siguiente ejemplo se muestra el uso de `Exchanger`. Se crean dos clases que implementan `Runnable`, `TareaA` y `TareaB`. Ambas clases reciben una instancia de `Exchanger` en el constructor y la utilizan para intercambiar información entre sí. La llamada al método `exchange` por parte de una de las dos tareas producirá un bloqueo de espera hasta que la otra tarea haga lo propio, intercambiando en ese momento la información entre los dos hilos. Por su parte, la clase `Intercambiador`, construye tanto el objeto `Exchanger` como las dos tareas programadas en `TareaA` y `TareaB`. Es importante prestar atención al hecho de que las tareas no tienen referencias la una de la otra, sino que tienen acceso al objeto que hace de «intercambiador» de información.
+En el siguiente ejemplo se muestra el uso de `Exchanger`. Se crean dos clases que implementan `Runnable`, `TaskA` y `TaskB`. Ambas clases reciben una instancia de `Exchanger` en el constructor y la utilizan para intercambiar información entre sí. La llamada al método `exchange` por parte de una de las dos tareas producirá un bloqueo de espera hasta que la otra tarea haga lo propio, intercambiando en ese momento la información entre los dos hilos. Por su parte, la clase `Commuter`, construye tanto el objeto `Exchanger` como las dos tareas programadas en `TaskA` y `TaskB`. Es importante prestar atención al hecho de que las tareas no tienen referencias la una de la otra, sino que tienen acceso al objeto que hace de «intercambiador» de información.
 
 `TaskA`:
 
@@ -1456,9 +1455,9 @@ public class RunnableSharing extends Thread {
 
     public static void main(String[] args) throws InterruptedException {
         RunnableSharing rs = new RunnableSharing();
-        new Thread(rs).start();
-        Thread.sleep(1000);
-        new Thread(rs).start();
+        for (int i = 0; i < 1000; i++) {
+            new Thread(rs).start();
+        }
     }
 }
 ```
@@ -1466,9 +1465,13 @@ public class RunnableSharing extends Thread {
 Debes obtener una salida similar a esta:
 
 ```sh
-Counter: 1
-Counter: 2
+[...]
+Counter: 998
+Counter: 999
+Counter: 1000
 ```
+
+En este caso aunque llamemos más de 1000 veces no existen problemas al acceder a la variable `counter`.
 
 ## Ejemplo19
 
@@ -1525,7 +1528,7 @@ public class SimpleWaitNotify implements Runnable {
 
     public synchronized void method1() {
         for (int i = 0; i < 10; i++) {
-            System.out.printf("Running %d\n", i);
+            System.out.printf("Method1: Running %d\n", i);
             if (i == 5) {
                 try {
                     this.wait();
@@ -1538,7 +1541,7 @@ public class SimpleWaitNotify implements Runnable {
 
     public synchronized void method2() {
         for (int i = 10; i < 20; i++) {
-            System.out.printf("Running %d\n", i);
+            System.out.printf("Method2: Running %d\n", i);
         }
         this.notifyAll();
     }
@@ -1847,6 +1850,65 @@ Method 1 from thread 2 start
 Method 2 from thread 1 ends
 Method 1 from thread 2 ends
 ```
+
+## Ejemplo26
+
+``` java
+package UD02.Example26;
+
+import java.util.concurrent.Semaphore;
+
+public class BasicSemaphore implements Runnable {
+
+    Semaphore semaphore = new Semaphore(3);
+
+    @Override
+    public void run() {
+        try {
+            semaphore.acquire();
+            System.out.println("Step 1");
+            Thread.sleep(1000);
+            System.out.println("Step 2");
+            Thread.sleep(1000);
+            System.out.println("Step 3");
+            Thread.sleep(1000);
+            semaphore.release();
+        } catch (InterruptedException ie) {
+            ie.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        BasicSemaphore sb = new BasicSemaphore();
+        for (int i = 0; i < 5; i++) {
+            new Thread(sb).start();
+        }
+    }
+}
+
+```
+
+Salida:
+
+```sh
+Step 1
+Step 1
+Step 1
+Step 2
+Step 2
+Step 2
+Step 3
+Step 3
+Step 3
+Step 1
+Step 1
+Step 2
+Step 2
+Step 3
+Step 3
+```
+
+La salida  muestra  que  los tres primeros hilos que han intentado acceder a la sección crítica a través del bloqueo del semáforo se han ejecutado concurrentemente, y el resto de los hilos se han ejecutado cuando los primeros han terminado y liberado los bloqueos.
 
 # Fuentes de información
 

@@ -26,7 +26,7 @@ public class SimpleWaitNotify implements Runnable {
 
     public synchronized void method1() {
         for (int i = 0; i < 10; i++) {
-            System.out.printf("Running %d\n", i);
+            System.out.printf("Method1: Running %d\n", i);
             if (i == 5) {
                 try {
                     this.wait();
@@ -39,7 +39,7 @@ public class SimpleWaitNotify implements Runnable {
 
     public synchronized void method2() {
         for (int i = 10; i < 20; i++) {
-            System.out.printf("Running %d\n", i);
+            System.out.printf("Method2: Running %d\n", i);
         }
         this.notifyAll();
     }

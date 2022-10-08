@@ -32,8 +32,8 @@ public class RunnableSharing extends Thread {
 
     public static void main(String[] args) throws InterruptedException {
         RunnableSharing rs = new RunnableSharing();
-        new Thread(rs).start();
-        Thread.sleep(1000);
-        new Thread(rs).start();
+        for (int i = 0; i < 1000; i++) {
+            new Thread(rs).start();
+        }
     }
 }

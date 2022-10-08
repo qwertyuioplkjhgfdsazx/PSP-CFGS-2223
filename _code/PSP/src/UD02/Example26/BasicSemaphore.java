@@ -14,21 +14,38 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package UD02.producer_consumer_v2;
+package UD02.Example26;
+
+import java.util.concurrent.Semaphore;
 
 /**
  *
  * @author David Martínez (wwww.martinezpenya.es|www.ieseduardoprimo.es)
  */
-public class SharedData {
+public class BasicSemaphore implements Runnable {
 
-    int data;
+    Semaphore semaphore = new Semaphore(3);
 
-    public synchronized int get() {
-        return data;
+    @Override
+    public void run() {
+        try {
+            semaphore.acquire();
+            System.out.println("Step 1");
+            Thread.sleep(1000);
+            System.out.println("Step 2");
+            Thread.sleep(1000);
+            System.out.println("Step 3");
+            Thread.sleep(1000);
+            semaphore.release();
+        } catch (InterruptedException ie) {
+            ie.printStackTrace();
+        }
     }
 
-    public synchronized void put(int newData) {
-        data = newData;
+    public static void main(String[] args) {
+        BasicSemaphore sb = new BasicSemaphore();
+        for (int i = 0; i < 5; i++) {
+            new Thread(sb).start();
+        }
     }
 }

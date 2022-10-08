@@ -22,28 +22,29 @@ import java.io.IOException;
  *
  * @author David Martínez (wwww.martinezpenya.es|www.ieseduardoprimo.es)
  */
-public class Ejemplo01 {
+public class Ejemplo02 {
 
     public static void main(String[] args) {
         
         try {
             
-            Runtime.getRuntime().exec("kate notes.txt"); //kubuntu
+            Runtime.getRuntime().exec("kwrite notes.txt"); //kubuntu
             //Runtime.getRuntime().exec("notepad.exe notes.txt"); //windows
             
-            String[] procesInfo = {"kate","notes.txt"};//kubuntu
+            String[] procesInfo = {"kwrite","notes.txt"};//kubuntu
             //String[] procesInfo = {"Notepad.exe","notes.txt"};//windows
             Process p = Runtime.getRuntime().exec(procesInfo);
             int returnCode = p.waitFor();
             System.out.println("Fin de la ejecución:" + returnCode);
             
-            ProcessBuilder pBuilder = new ProcessBuilder("kate");//kubuntu
+            ProcessBuilder pBuilder = new ProcessBuilder("kwrite");//kubuntu
             //ProcessBuilder pBuilder = new ProcessBuilder("Notepad.exe");//windows
             for (int i=0; i<10;i++){
                 pBuilder.start();
                 Thread.sleep(1000); //Espera 1000 milisegundos (1 segundo)
             }
             
+            //shows the number of cores
             int processors = Runtime.getRuntime().availableProcessors();
             System.out.println("CPU cores: " + processors);
             

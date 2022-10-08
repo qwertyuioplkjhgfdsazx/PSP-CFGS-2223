@@ -6,7 +6,7 @@ import java.io.*;
  *
  * @author David Martínez (wwww.martinezpenya.es|iesmre.com)
  */
-public class Ejemplo03 {
+public class Ejemplo04 {
 
     public static void main(String[] args) throws IOException {
         //create File Object where the example is located
@@ -24,6 +24,8 @@ public class Ejemplo03 {
             while ((line = br.readLine()) != null) {
             System.out.println(line);
         }
+            
+        //same than the above try but without bufffer   
 //        try {
 //            InputStream is = p.getInputStream();
 //            int c;

@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
  *
  * @author David Martínez (wwww.martinezpenya.es)
  */
-public class Ejemplo02 {
+public class Ejemplo03 {
 
     public static void main(String[] args) {
         String[] cmd = {"ls", "-l"};

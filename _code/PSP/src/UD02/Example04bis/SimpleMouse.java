@@ -51,7 +51,7 @@ public class SimpleMouse implements Runnable {
 
     public static void main(String[] args) {
         SimpleMouse fievel = new SimpleMouse("Fievel", 4);
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1000; i++) {
             new Thread(fievel).start();
         }
     }
