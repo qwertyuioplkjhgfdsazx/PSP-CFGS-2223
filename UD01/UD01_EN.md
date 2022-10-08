@@ -803,6 +803,50 @@ Soy el proceso ABUELO: 10744, Mi HIJO: 10745 terminó.
 
 ## Example02
 
+This example show how to launch text editor in linux or windows with `Runtime` and `ProcessBuilder` and shows the number of cores of the system:
+
+```java
+package UD01;
+
+import java.io.IOException;
+
+public class Ejemplo02 {
+
+    public static void main(String[] args) {
+        
+        try {
+            
+            Runtime.getRuntime().exec("kwrite notes.txt"); //kubuntu
+            //Runtime.getRuntime().exec("notepad.exe notes.txt"); //windows
+            
+            String[] procesInfo = {"kwrite","notes.txt"};//kubuntu
+            //String[] procesInfo = {"Notepad.exe","notes.txt"};//windows
+            Process p = Runtime.getRuntime().exec(procesInfo);
+            int returnCode = p.waitFor();
+            System.out.println("Fin de la ejecución:" + returnCode);
+            
+            ProcessBuilder pBuilder = new ProcessBuilder("kwrite");//kubuntu
+            //ProcessBuilder pBuilder = new ProcessBuilder("Notepad.exe");//windows
+            for (int i=0; i<10;i++){
+                pBuilder.start();
+                Thread.sleep(1000); //Espera 1000 milisegundos (1 segundo)
+            }
+            
+            //shows the number of cores
+            int processors = Runtime.getRuntime().availableProcessors();
+            System.out.println("CPU cores: " + processors);
+            
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
+    }
+}
+```
+
+
+
+## Example03
+
 This example creates a process to call the `ls` command (expected to run on Linux or Mac OS X), with the `-l` option to get a detailed list of files and folders in the current directory. It then captures the output and prints it to the console (or stdout).
 
 ```java
@@ -811,7 +855,7 @@ package UD01;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-public class Ejemplo02 {
+public class Ejemplo03 {
 
     public static void main(String[] args) {
         String[] cmd = {"ls", "-l"};
@@ -849,7 +893,7 @@ drwxrwxrwx 1 root root    0 d’ag.    11 10:47 src
 drwxrwxrwx 1 root root    0 d’ag.     4 09:42 test
 ```
 
-## Example03
+## Example04
 
 This example creates a process to call the `java` command (expected to run on Linux or Mac OS X), with the `--version`option to get info about current `java` version. Changes current folder running and shows it along with other information.
 
@@ -859,7 +903,11 @@ package UD01;
 
 import java.io.*;
 
-public class Ejemplo03 {
+/**
+ *
+ * @author David Martínez (wwww.martinezpenya.es|iesmre.com)
+ */
+public class Ejemplo04 {
 
     public static void main(String[] args) throws IOException {
         //create File Object where the example is located
@@ -877,6 +925,8 @@ public class Ejemplo03 {
             while ((line = br.readLine()) != null) {
             System.out.println(line);
         }
+            
+        //same than the above try but without bufffer   
 //        try {
 //            InputStream is = p.getInputStream();
 //            int c;
@@ -889,7 +939,6 @@ public class Ejemplo03 {
         }
     }
 }
-
 ```
 
 Example output of its execution:
