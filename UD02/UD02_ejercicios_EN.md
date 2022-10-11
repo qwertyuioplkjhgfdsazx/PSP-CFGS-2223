@@ -103,26 +103,25 @@ imgcover:/media/DADES/NextCloud/DOCENCIA/PSP_2223/PSP-CFGS-2223/UD01/assets/cove
 
     Example of output when executing the program:
 
-
-    ```sh
-    NUMBER TO GUESS: 3
-    Player1 says: 9
-         It's Player2 turn
-    Player2 says: 9
-         It's Player3 turn
-    Player3 says: 10
-         It's Player1 turn
-    Player1 says: 4
-         It's Player2 turn
-    Player2 says: 7
-         It's Player3 turn
-    Player3 says: 7
-         It's Player1 turn
-    Player1 says: 6
-         It's Player2 turn
-    Player2 says: 3
-      Player2 wins!
-    ```
+      ```sh
+      NUMBER TO GUESS: 3
+      Player1 says: 9
+           It's Player2 turn
+      Player2 says: 9
+           It's Player3 turn
+      Player3 says: 10
+           It's Player1 turn
+      Player1 says: 4
+           It's Player2 turn
+      Player2 says: 7
+           It's Player3 turn
+      Player3 says: 7
+           It's Player1 turn
+      Player1 says: 6
+           It's Player2 turn
+      Player2 says: 3
+        Player2 wins!
+      ```
 
 # Activities
 
@@ -148,7 +147,7 @@ imgcover:/media/DADES/NextCloud/DOCENCIA/PSP_2223/PSP-CFGS-2223/UD01/assets/cove
 4. Which method allows to start the execution of a thread in Java?
    a) `run`.
    b) `start`.
-   e) `init'.
+   e) `init`.
    d) `go`.
 
 5. What interface allows to create execution threads?
@@ -195,7 +194,7 @@ imgcover:/media/DADES/NextCloud/DOCENCIA/PSP_2223/PSP-CFGS-2223/UD01/assets/cove
 
 12. Given two code segments whose outputs are assigned to the same variables. What type of dependency would be produced?
     a) Flow dependency.
-    b) Antidependencia.
+    b) Anti dependency.
     c) Output dependency.
     d) It does not generate any dependency.
 
@@ -203,7 +202,7 @@ imgcover:/media/DADES/NextCloud/DOCENCIA/PSP_2223/PSP-CFGS-2223/UD01/assets/cove
     a) Sliding condition.
     b) Race condition.
     e) Memory inconsistency.
-    d) Interbloqueo.
+    d) Deadlock.
 
 14. How can I recover the execution of a stopped thread with the `wait` method?
     a) With the `sleep` method.
@@ -232,12 +231,11 @@ imgcover:/media/DADES/NextCloud/DOCENCIA/PSP_2223/PSP-CFGS-2223/UD01/assets/cove
 
 18. Given the following piece of code on a particular Object to perform a critical section:
 
-
-    ```java
-    notify();
-    //Critical section
-    wait();
-    ```
+     ```java
+     notify();
+     //Critical section
+     wait();
+     ```
     
     Which of the following statements is true?
     a) The code shown does not ensure retention.
@@ -267,17 +265,14 @@ imgcover:/media/DADES/NextCloud/DOCENCIA/PSP_2223/PSP-CFGS-2223/UD01/assets/cove
     d) None of the above. It depends on the execution.
 
 21. Given the following piece of code executed by a thread:
-
-
-    ```java
-    syncronyzhed(Object){
-    ...
-    if (<<se cumple condicion>>)
-    wait();
-    FUNCIÓN
-    }
-    ```
-    
+      ```java
+      syncronyzhed(Object){
+      ...
+      if (<<condition is true>>)
+      	wait();
+      	FUNCTION
+      }
+      ```
     Which of the following statements is true?
     a) The thread will only execute FUNCTION when the condition is not met.
     b) The thread could execute FUNCTION even if it is fulfilled, due to the thread waiting for
@@ -332,7 +327,7 @@ imgcover:/media/DADES/NextCloud/DOCENCIA/PSP_2223/PSP-CFGS-2223/UD01/assets/cove
 
 2. Find out what a thread pool consists of. Learn how to create them in Java.
 
-3. Goes deeper into the knowledge of interruptions in operating systems. Find out what are the main reasons why they are caused.
+3. Go deeper into the knowledge of interruptions in operating systems. Find out what are the main reasons why they are caused.
 
 4. Find out if semaphores exist as a synchronization tool in the Python language. Even if you don't know how to program in this language, check if the lock reservation and release methods are similar to Java.
 
@@ -363,7 +358,7 @@ imgcover:/media/DADES/NextCloud/DOCENCIA/PSP_2223/PSP-CFGS-2223/UD01/assets/cove
 
 # Suggested exercises
 
-1. Write a class called Command that creates two threads and forces the writing of the second to always be before the screen writing of the first.
+1. Write a class called `Command` that creates two threads and forces the writing of the second to always be before the screen writing of the first.
 
    Execution example:
 
@@ -372,7 +367,7 @@ imgcover:/media/DADES/NextCloud/DOCENCIA/PSP_2223/PSP-CFGS-2223/UD01/assets/cove
     Hi, I'm thread number 1.
     ```
 
-2. Write a class called Relays that simulates a relay race as follows:
+2. Write a class called `Relays` that simulates a relay race as follows:
 
    - Create 4 threads, which will wait to receive a signal to start running. Once the threads have been created, the race will be indicated to start, so one of the threads must start running.
    - When a thread finishes running, it puts a message on the screen and waits a couple of seconds, passing the token to another of the threads so that it starts running, and ending its execution (its own).
