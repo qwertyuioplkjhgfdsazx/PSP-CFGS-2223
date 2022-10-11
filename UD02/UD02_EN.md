@@ -29,7 +29,7 @@ The operating system is in charge of making the different processes coexist and 
 
 It is within processes that programming has something to say about concurrency, through multithreading.
 
-> A thread, also known as a thread, is a small unit of computation that runs within the context of a process. All programs use threads.
+> A thread is a small unit of computation that runs within the context of a process. All programs use threads.
 
 
 In the case of an absolutely sequential program, the execution thread is unique, which means that each statement has to wait for the immediately preceding statement to complete its execution before starting its execution. This does not mean in any case that there are no control structures, such as `if` or `while`, but rather that the statements are executed one after the other and not simultaneously.
@@ -88,12 +88,15 @@ Inheriting from the Thread class this is not required because that class is alre
 
 ```java
 public class ThreadViaInheritance extends Thread {
+    @override //not mandatory but "required"
+	public void run() {
+    }
 }
 ```
 
 However, creating a thread by inheriting from `Thread` "requires" the method implementation with no `run` arguments, otherwise the class will not be multithreaded.
 
-Check the[Example3](#Example03)
+Check the [Example3](#Example03)
 
 >It is common for programmers to attempt to execute the `run` method on first encounters with threads in Java instead of executing the `start` method. From a compilation point of view there will be no problem: the program will compile without errors.
 >
@@ -110,7 +113,7 @@ Check the[Example04](#Example04) and [Example04bis](#Example04bis)
 
 >Due to the nature of multithreaded programming, the outputs of the Example program executions may not match those presented in the notes. In fact, in different executions on the same machine the results may vary.
 
-## thread states
+## Thread states
 
 During the life cycle of threads, they go through various states. In Java, they are contained within the `State` enumeration contained within the `java.lang.Thread` class.
 
@@ -130,7 +133,7 @@ The states of a thread are shown in the following table:
 
 In the following Example code, the states passed through by a thread containing a call to the `sleep` method are stored in an `ArrayList`. The `MouseSimple` class is used which implements `Runnable` from the previous Examples.
 
-Check the[Example05](#Example05)
+Check the [Example05](#Example05)
 
 > All threads go through **NEW**, **RUNNABLE** and **TERMINATED** states. The rest of the states are conditioned by the circumstances of the execution.
 
@@ -206,7 +209,7 @@ The most relevant classes of this group are collected in the following table.
 
 Check the[Example08](#Example08) and [Example08bis](#Example08bis)
 
-##Synchronizers
+## Synchronizers
 
 The `java.util.concurrent` package provides five specific classes to make thread concurrency work properly. These classes are listed in the following table.
 
@@ -284,7 +287,7 @@ See [Example12](#Example12)
 
 > In programming, one alternative is almost never always better than another. The `Runnable` and `Callable` interfaces are absolutely valid, and depending on the situation, one or the other will be the best alternative.
 
-# asynchronous programming
+# Asynchronous programming
 
 Conceptually, asynchronous programming is independent of the programming language in which it is done, as long as it is supported by it. Instead, on a practical level, each programming language provides different tools to allow the creation and management of threads.
 
@@ -426,7 +429,7 @@ The critical section of a multithreaded program is the block of code that access
 
 This is the name given to the programming technique consisting of making, in a concurrent environment, one process exclude all the others from using a shared resource (a critical section) to guarantee the integrity of the system.
 
-### Thread safety, thread safety or `Thread safety`
+### Thread safety
 
 These terms refer to the property that a piece of software (a class or a data structure, for Example) has to be executed in a multi-threaded environment safely.
 
@@ -1403,7 +1406,7 @@ public class BasicThread extends Thread{
 The output does not differ from the class we implemented earlier with `Runnable`.
 
 
-### Example16
+## Example16
 
 ```java
 public class BasicInterruption extends Thread {

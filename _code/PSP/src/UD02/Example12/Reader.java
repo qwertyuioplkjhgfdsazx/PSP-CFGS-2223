@@ -30,7 +30,7 @@ public class Reader implements Callable<String> {
     @Override
     public String call() throws Exception {
         String readedText = "I like action movies";
-        Thread.sleep(1000);
+        Thread.sleep(4000);
         return readedText;
     }
 
