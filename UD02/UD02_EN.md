@@ -527,7 +527,7 @@ To be able to use these structures you have to use the synchronization technique
 
 ## Advanced synchronization: mutual exclusion, `synchronized` and monitors
 
-One of the mechanisms provided by Java to synchronize code segments is to use the `synchronized` keyword. By using synchronized you can limit access to a segment of code to a single thread concurrently, thus achieving mutual exclusion or mutex. It allows to synchronize both methods and code segments (synchronized declarations), allowing this last alternative to delimit the critical section with more precision.
+One of the mechanisms provided by Java to synchronize code segments is to use the `synchronized` keyword. By using synchronized you can limit access to a segment of code to a single thread concurrently, thus achieving mutual exclusion or mutex. It allows synchronization for both methods and code segments (synchronized declarations), allowing this last alternative to delimit the critical section with more precision.
 
 At the method level, usage is as simple as including the word in the method declaration:
 
