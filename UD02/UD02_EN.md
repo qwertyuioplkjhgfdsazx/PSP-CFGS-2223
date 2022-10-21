@@ -374,7 +374,7 @@ It is representative of the problem of concurrent programming that such importan
 
 > Concurrency problems do not always occur in the same way, since the execution is not deterministic. The algorithm that generates an error when 1000 threads increment a shared variable by 1000 units can work correctly in most cases with 10 threads and an increment of 10 units per thread. However, the risk that an algorithm might fail, even if the chance is low, is normally unacceptable in computing.
 
-The order of execution, on the other hand, has to do with the dependencies that can occur between blocks of code depending on the order of execution. If, for Example, a block of code needs as input data generated as output by another block, this will cause a dependency, since in a multithreaded system there is no control over the order of executions unless synchronization mechanisms are established.
+The order of execution, on the other hand, has to do with the dependencies that can occur between blocks of code depending on the order of execution. If, for Example, a block of code needs input data generated as output by another block, this will cause a dependency, since in a multithreaded system there is no control over the order of executions unless synchronization mechanisms are established.
 
 This section presents the most important terms and concepts related to concurrency problems, as well as these problems and their possible solutions.
 
@@ -527,7 +527,7 @@ To be able to use these structures you have to use the synchronization technique
 
 ## Advanced synchronization: mutual exclusion, `synchronized` and monitors
 
-One of the mechanisms provided by Java to synchronize code segments is to use the `synchronized` keyword. By using synchronized you can limit access to a segment of code to a single thread concurrently, thus achieving mutual exclusion or mutex. It allows to synchronize both methods and code segments (synchronized declarations), allowing this last alternative to delimit the critical section with more precision.
+One of the mechanisms provided by Java to synchronize code segments is to use the `synchronized` keyword. By using synchronized you can limit access to a segment of code to a single thread concurrently, thus achieving mutual exclusion or mutex. It allows synchronization of both methods and code segments (synchronized declarations), allowing this last alternative to delimit the critical section with more precision.
 
 At the method level, usage is as simple as including the word in the method declaration:
 
@@ -565,7 +565,7 @@ See the [Example24](#Example24)
 
 For its part, synchronization at the segment level also needs a `monitor`, but since it does not depend on the object in which it is being executed, it is more flexible. Using synchronized blocks it is not necessary to block all the segments of an object as is the case with object methods, but they can be grouped into different monitors.
 
-In [Example25](#Example25) synchronization is performed at the block level, using two different locks in each of them. In such a way that the methods are not exclusive of each other. The synchronization is done at the method level (each of the methods can only be executed by one object at a time, but both methods can be executed by two different objects).
+In [Example25](#Example25) synchronization is performed at the block level, using two different locks in each of them. In such a way that the methods are not exclusive to each other. The synchronization is done at the method level (each of the methods can only be executed by one object at a time, but both methods can be executed by two different objects).
 
 On the other hand, if the methods use the same object as a lock, when an object is executing one of the methods, no object can execute either method.
 
