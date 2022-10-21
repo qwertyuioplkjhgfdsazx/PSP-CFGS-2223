@@ -565,7 +565,7 @@ See the [Example24](#Example24)
 
 For its part, synchronization at the segment level also needs a `monitor`, but since it does not depend on the object in which it is being executed, it is more flexible. Using synchronized blocks it is not necessary to block all the segments of an object as is the case with object methods, but they can be grouped into different monitors.
 
-In [Example25](#Example25) synchronization is performed at the block level, using two different locks in each of them. In such a way that the methods are not exclusive of each other. The synchronization is done at the method level (each of the methods can only be executed by one object at a time, but both methods can be executed by two different objects).
+In [Example25](#Example25) synchronization is performed at the block level, using two different locks in each of them. In such a way that the methods are not exclusive to each other. The synchronization is done at the method level (each of the methods can only be executed by one object at a time, but both methods can be executed by two different objects).
 
 On the other hand, if the methods use the same object as a lock, when an object is executing one of the methods, no object can execute either method.
 
@@ -1240,7 +1240,7 @@ public class safeReaderWriter extends Thread {
 
 ```
 
-That this time it runs without problems or errors.
+This time it runs without problems or errors.
 
 
 ## Example12
